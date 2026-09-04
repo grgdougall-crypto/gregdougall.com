@@ -164,6 +164,12 @@ def smartfix_page():
     return send_from_directory(BASE_DIR / "projects", "smartfix.html")
 
 
+@app.get("/projects/cyberslooth")
+@app.get("/projects/cyberslooth.html")
+def cyberslooth_page():
+    return send_from_directory(BASE_DIR / "projects", "cyberslooth.html")
+
+
 @app.get("/projects/ai-corral")
 @app.get("/projects/ai-corral.html")
 def ai_corral_page():

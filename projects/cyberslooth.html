@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore CyberSlooth, a bounded autonomous AI research system built by Greg Dougall.">
+  <title>CyberSlooth — Greg Dougall</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="cyberslooth-exhibit-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header exhibit-header">
+    <div class="container nav-shell">
+      <a class="wordmark" href="/" aria-label="Greg Dougall, home">Greg Dougall</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav id="site-navigation" class="site-nav" aria-label="Primary navigation"><a href="#flow">Research flow</a><a href="#limits">Boundaries</a><a href="#retrieval">Retrieval</a><a href="#visuals">Visuals</a><a href="/contact">Contact</a></nav>
+      <a class="button button-small nav-cta" href="/#projects">Back to Projects</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="exhibit-hero cyber-exhibit-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">GregDougall.com</a><span aria-hidden="true">/</span><a href="/#projects">Projects</a><span aria-hidden="true">/</span><span aria-current="page">CyberSlooth</span></nav>
+        <div class="exhibit-hero-grid">
+          <div>
+            <p class="eyebrow">Live application</p>
+            <h1>CyberSlooth</h1>
+            <p class="exhibit-subtitle">Bounded autonomous AI research system</p>
+            <p class="exhibit-intro">CyberSlooth researches public web sources within explicit limits, preserves the evidence behind its findings, and publishes a daily AI-assisted discovery.</p>
+            <div class="exhibit-hero-actions">
+              <a class="button" href="https://cyberslooth.com" target="_blank" rel="noopener noreferrer">Live Demo <span aria-hidden="true">→</span></a>
+              <a class="text-link" href="https://github.com/grgdougall-crypto/CyberSlooth" target="_blank" rel="noopener noreferrer">View Source on GitHub <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <aside class="project-facts" aria-label="Project status and technologies">
+            <div class="active-status"><span aria-hidden="true"></span>Railway scheduled / bounded</div>
+            <ul class="tag-list"><li>Python</li><li>Flask</li><li>OpenAI</li><li>PostgreSQL</li><li>Safe Retrieval</li><li>Provenance</li></ul>
+            <div class="hero-system-map" aria-hidden="true"><span>retrieve</span><i></i><span>analyze</span><i></i><span>archive</span><i></i><strong>publish</strong></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-band cyber-status-band">
+      <div class="container status-callout"><span class="status-label">Bounded by design</span><p>Railway starts one short-lived expedition. CyberSlooth retrieves, analyzes, optionally explores, archives, compares, publishes at most one Daily Discovery, and stops.</p></div>
+    </section>
+
+    <section class="section exhibit-section" id="flow">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Research flow / 01</p><h2>From source to discovery</h2><p>Each expedition follows a bounded research path: retrieve a safe public source, analyze the evidence, optionally follow a small number of approved leads, preserve the research record, compare recent discoveries, and publish one result.</p></div>
+        <div class="cyber-research-flow" aria-label="CyberSlooth research flow">
+          <div class="operations-step"><span>01</span><strong>Safe Retrieval</strong></div>
+          <div class="operations-step"><span>02</span><strong>Evidence</strong></div>
+          <div class="operations-step"><span>03</span><strong>AI Analysis</strong></div>
+          <div class="operations-step"><span>04</span><strong>Limited Follow-Ups</strong></div>
+          <div class="operations-step"><span>05</span><strong>Archive</strong></div>
+          <div class="operations-step"><span>06</span><strong>Daily Discovery</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-limits-section" id="limits">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Run boundaries / 02</p><h2>Autonomy with hard limits</h2><p>CyberSlooth is designed to perform useful autonomous research without turning into an uncontrolled crawler. Each expedition runs inside explicit page, hop, model-call, and publication limits.</p></div>
+        <div class="cyber-limit-grid">
+          <article><span>Starting point</span><strong>1 primary curated seed</strong><p>At most one different approved seed is tried after a retrieval failure.</p></article>
+          <article><span>Seed attempts</span><strong>2 maximum</strong><p>No arbitrary starting URL or repeated seed retry is allowed.</p></article>
+          <article><span>Candidate set</span><strong>5 maximum</strong><p>Exploration accepts at most five original candidate links.</p></article>
+          <article><span>Follow-ups</span><strong>2 pages maximum</strong><p>Only selected links from the original evidence may be retrieved.</p></article>
+          <article><span>Depth</span><strong>1 hop</strong><p>Follow-up pages cannot start another round of exploration.</p></article>
+          <article><span>Model budget</span><strong>6 calls maximum</strong><p>Including starting analysis, up to four exploration calls, and one scoring call.</p></article>
+          <article><span>Persistence</span><strong>1 expedition record</strong><p>The validated run is preserved once before cross-run comparison.</p></article>
+          <article><span>Publication</span><strong>1 Daily Discovery</strong><p>The expedition publishes at most one selection and then stops.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-retrieval-section" id="retrieval">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Network boundary / 03</p><h2>Safe retrieval before AI analysis</h2><p>The system validates destinations before fetching content so AI analysis never starts with an unchecked network request. These controls are deterministic application code, not model decisions.</p></div>
+        <div class="cyber-protection-grid">
+          <article><span>URL policy</span><h3>Public web only</h3><p>Only complete HTTP or HTTPS URLs on standard ports are accepted. Embedded credentials and internal hostnames are rejected.</p></article>
+          <article><span>Address checks</span><h3>DNS and SSRF controls</h3><p>Every resolved address must be public; private, loopback, link-local, reserved, multicast, and other unsafe destinations fail closed.</p></article>
+          <article><span>Redirects</span><h3>Revalidate every hop</h3><p>Redirects are followed manually, each destination is checked again, and the chain stops after three redirects.</p></article>
+          <article><span>Time</span><h3>Bounded request</h3><p>Retrieval uses a four-second connection timeout and an eight-second read timeout with no automatic client retries.</p></article>
+          <article><span>Size</span><h3>One-megabyte limit</h3><p>Declared and streamed response sizes are checked so oversized pages are rejected.</p></article>
+          <article><span>Content</span><h3>Textual sources only</h3><p>Allowed responses are HTML, XHTML, or plain text; unsupported content types never reach analysis.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-evidence-section" id="evidence">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Research record / 04</p><h2>Keep the evidence with the conclusion</h2><p>CyberSlooth stores the source evidence separately from AI interpretation so a discovery can be reviewed against the material that produced it.</p></div>
+        <div class="learning-detail-grid">
+          <article class="learning-detail-card"><span>Evidence</span><h3>Source and content</h3><p>Requested and final URLs, retrieval metadata, extracted content, and unvisited candidate links remain in the evidence record.</p></article>
+          <article class="learning-detail-card"><span>Interpretation</span><h3>Analysis and exploration</h3><p>Grounded observations, uncertainties, selected follow-ups, and synthesis remain separate from the retrieved material.</p></article>
+          <article class="learning-detail-card"><span>Archive</span><h3>Public research record</h3><p>A non-sequential public ID links the preserved evidence, analysis, exploration state, provenance, and archive metadata.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-exploration-section" id="exploration">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">One-hop exploration / 05</p><h2>Follow leads without losing control</h2><p>When a source contains promising links, CyberSlooth can rank a small candidate set and inspect only the allowed follow-ups before the expedition stops.</p></div>
+        <div class="smartfix-context-path cyber-control-path">
+          <article><span>01 / Bound</span><h3>Accept five candidates</h3><p>The model can select only from candidate URLs already present in the original evidence.</p></article>
+          <article><span>02 / Select</span><h3>Inspect two pages</h3><p>At most two selected follow-ups are retrieved with the same network protections as the starting page.</p></article>
+          <article><span>03 / Stop</span><h3>No recursive loop</h3><p>The system synthesizes the completed evidence and ends; follow-up pages cannot produce another research hop.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-archive-section" id="archive">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Cross-run memory / 06</p><h2>Research that persists across runs</h2><p>Completed research is stored in a public archive. Recent records can then be scored against one another so the strongest current discovery can be published as the Daily Discovery.</p></div>
+        <div class="ops-signal-grid cyber-score-grid">
+          <article class="ops-signal-card"><span>Evidence-based record</span><h3>Preserved research</h3><p>The archive keeps normalized evidence, analysis, exploration results, uncertainties, provenance, and the run’s explicit boundaries together.</p></article>
+          <article class="ops-signal-card"><span>Bounded comparison</span><h3>Ten recent candidates</h3><p>One structured model call scores up to ten recent records for research value, evidence quality, novelty, interestingness, uncertainty, and archive recommendation quality.</p></article>
+          <article class="ops-signal-card"><span>Daily publication</span><h3>One selected record</h3><p>The application validates the component scores and recomputes the total before the winning archive record becomes the Daily Discovery.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cyber-schedule-section" id="schedule">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Railway schedule / 07</p><h2>One bounded expedition each day</h2><p>Railway provides the external daily schedule. CyberSlooth wakes for one short-lived expedition, publishes at most one Daily Discovery, records the run, and exits.</p></div>
+        <div class="cyber-schedule-grid">
+          <article><span>External clock</span><h3>Railway starts the run</h3><p>CyberSlooth has no internal infinite scheduler, background crawl, or repeated expedition loop.</p></article>
+          <article><span>Daily guard</span><h3>One completion per UTC day</h3><p>Database-backed concurrency and idempotency guards block active overlap and expected same-day duplicates.</p></article>
+          <article><span>Safe recovery</span><h3>Failed runs remain retryable</h3><p>A failed expedition records sanitized failure metadata without consuming the completed-run guard for that UTC day.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section visuals-section" id="visuals">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">System visuals / 08</p><h2>Inside CyberSlooth</h2><p>These live public views show the research interface, persistent archive, current Daily Discovery, and sanitized autonomous-run status.</p></div>
+        <div class="project-visual-grid cyberslooth-visual-grid">
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/homepage-research-interface.png" data-title="Research interface" data-caption="Introduces the research experiment and provides the public entry point for a bounded source inspection.">
+              <span class="screenshot-frame"><img src="/static/Images/cyberslooth/homepage-research-interface.png" alt="CyberSlooth homepage and research interface" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">01 / Research</span><strong>Research interface</strong><span>Introduces the research experiment and provides the public entry point for a bounded source inspection.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/research-archive.png" data-title="Research archive" data-caption="Lists preserved research records and the most recent bounded cross-run candidate ranking.">
+              <span class="screenshot-frame"><img src="/static/Images/cyberslooth/research-archive.png" alt="CyberSlooth research archive with ranked discovery candidates" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">02 / Preserve</span><strong>Research archive</strong><span>Lists preserved research records and the most recent bounded cross-run candidate ranking.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/todays-discovery.png" data-title="Today’s Discovery" data-caption="Shows the selected archive record, supporting summary, selection reason, score, confidence, and exploration state.">
+              <span class="screenshot-frame"><img src="/static/Images/cyberslooth/todays-discovery.png" alt="CyberSlooth Today's Discovery page with selection reason and score" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">03 / Publish</span><strong>Today’s Discovery</strong><span>Shows the selected archive record, supporting summary, selection reason, score, confidence, and exploration state.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/autonomous-run-status.png" data-title="Autonomous run status" data-caption="Publishes sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.">
+              <span class="screenshot-frame"><img src="/static/Images/cyberslooth/autonomous-run-status.png" alt="CyberSlooth autonomous run status showing a completed bounded expedition" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">04 / Verify</span><strong>Autonomous run status</strong><span>Publishes sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ideas-section">
+      <div class="container ideas-grid">
+        <div><p class="eyebrow">Implementation / 09</p><h2>What I built</h2></div>
+        <ul class="ideas-list"><li><span>01</span>A Flask web application with deterministic URL ingestion and SSRF-safe retrieval controls.</li><li><span>02</span>Strict structured analysis through the OpenAI Responses API with tool use disabled and defensive output validation.</li><li><span>03</span>Candidate-link selection, bounded one-hop exploration, per-page analysis, and evidence synthesis.</li><li><span>04</span>A SQLAlchemy research archive using PostgreSQL on Railway and SQLite for local development.</li><li><span>05</span>Cross-run candidate scoring, deterministic score verification, and idempotent Daily Discovery publication.</li><li><span>06</span>A short-lived autonomous expedition orchestrator with curated seed rotation, run budgets, failure records, and Railway cron entrypoint.</li><li><span>07</span>Public archive, discovery, and sanitized status pages that preserve evidence and provenance boundaries.</li></ul>
+      </div>
+    </section>
+
+    <section class="section deeper-section cyber-deeper-section">
+      <div class="container deeper-panel">
+        <div><p class="eyebrow">Continue exploring</p><h2>Explore the project</h2><p>Use the live application to browse discoveries and research records, or review the repository for the implementation and architecture.</p></div>
+        <div class="deeper-actions">
+          <a class="button" href="https://cyberslooth.com" target="_blank" rel="noopener noreferrer">Live Demo <span aria-hidden="true">→</span></a>
+          <a class="button ops-button-outline" href="https://github.com/grgdougall-crypto/CyberSlooth" target="_blank" rel="noopener noreferrer">View Source on GitHub <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="/#projects">Back to Projects <span aria-hidden="true">←</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="image-lightbox" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
+    <div class="lightbox-panel">
+      <button class="lightbox-close" type="button" aria-label="Close image viewer" data-lightbox-close><span aria-hidden="true">×</span></button>
+      <figure><img src="" alt="" data-lightbox-image><figcaption><span class="visual-step">CyberSlooth project visual</span><h2 id="lightbox-title"></h2><p id="lightbox-caption"></p></figcaption></figure>
+    </div>
+  </dialog>
+
+  <footer class="site-footer"><div class="container footer-bottom"><span>CyberSlooth / Project exhibit</span><a href="/">GregDougall.com</a></div></footer>
+  <script src="/static/js/main.js" defer></script>
+</body>
+</html>
