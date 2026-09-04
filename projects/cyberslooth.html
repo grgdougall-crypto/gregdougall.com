@@ -43,12 +43,12 @@
     </section>
 
     <section class="status-band cyber-status-band">
-      <div class="container status-callout"><span class="status-label">Bounded by design</span><p>Railway starts one short-lived expedition. CyberSlooth retrieves, analyzes, optionally explores, archives, compares, publishes at most one Daily Discovery, and stops.</p></div>
+      <div class="container status-callout"><span class="status-label">Bounded by design</span><p>Railway starts one short-lived process. When the daily guard allows it, CyberSlooth runs one expedition: retrieve, analyze, optionally explore, archive, compare, publish at most one Daily Discovery, and stop.</p></div>
     </section>
 
     <section class="section exhibit-section" id="flow">
       <div class="container">
-        <div class="exhibit-heading"><p class="eyebrow">Research flow / 01</p><h2>From source to discovery</h2><p>Each expedition follows a bounded research path: retrieve a safe public source, analyze the evidence, optionally follow a small number of approved leads, preserve the research record, compare recent discoveries, and publish one result.</p></div>
+        <div class="exhibit-heading"><p class="eyebrow">Research flow / 01</p><h2>From source to discovery</h2><p>Each successful expedition follows a bounded research path: retrieve a safe public source, analyze the evidence, optionally follow a small number of approved leads, preserve the research record, compare recent archive records, and publish one result.</p></div>
         <div class="cyber-research-flow" aria-label="CyberSlooth research flow">
           <div class="operations-step"><span>01</span><strong>Safe Retrieval</strong></div>
           <div class="operations-step"><span>02</span><strong>Evidence</strong></div>
@@ -62,16 +62,16 @@
 
     <section class="section cyber-limits-section" id="limits">
       <div class="container">
-        <div class="exhibit-heading"><p class="eyebrow">Run boundaries / 02</p><h2>Autonomy with hard limits</h2><p>CyberSlooth is designed to perform useful autonomous research without turning into an uncontrolled crawler. Each expedition runs inside explicit page, hop, model-call, and publication limits.</p></div>
+        <div class="exhibit-heading"><p class="eyebrow">Run boundaries / 02</p><h2>Autonomy with hard limits</h2><p>CyberSlooth performs autonomous research within a finite research path. Each expedition runs inside explicit page, hop, model-call, and publication limits.</p></div>
         <div class="cyber-limit-grid">
-          <article><span>Starting point</span><strong>1 primary curated seed</strong><p>At most one different approved seed is tried after a retrieval failure.</p></article>
-          <article><span>Seed attempts</span><strong>2 maximum</strong><p>No arbitrary starting URL or repeated seed retry is allowed.</p></article>
-          <article><span>Candidate set</span><strong>5 maximum</strong><p>Exploration accepts at most five original candidate links.</p></article>
-          <article><span>Follow-ups</span><strong>2 pages maximum</strong><p>Only selected links from the original evidence may be retrieved.</p></article>
-          <article><span>Depth</span><strong>1 hop</strong><p>Follow-up pages cannot start another round of exploration.</p></article>
-          <article><span>Model budget</span><strong>6 calls maximum</strong><p>Including starting analysis, up to four exploration calls, and one scoring call.</p></article>
-          <article><span>Persistence</span><strong>1 expedition record</strong><p>The validated run is preserved once before cross-run comparison.</p></article>
-          <article><span>Publication</span><strong>1 Daily Discovery</strong><p>The expedition publishes at most one selection and then stops.</p></article>
+          <article><span>Starting point</span><strong>1 primary curated seed</strong><p>Selected deterministically by least-recently-used order; after a retryable retrieval failure, at most one different approved seed is tried.</p></article>
+          <article><span>Seed attempts</span><strong>2 per expedition</strong><p>No arbitrary starting URL or repeated seed retry is allowed.</p></article>
+          <article><span>Candidate set</span><strong>5 per expedition</strong><p>Exploration accepts at most five original candidate links.</p></article>
+          <article><span>Follow-ups</span><strong>2 pages per expedition</strong><p>Only selected links from the original evidence may be retrieved.</p></article>
+          <article><span>Depth</span><strong>1 hop per expedition</strong><p>Follow-up pages cannot start another round of exploration.</p></article>
+          <article><span>Model budget</span><strong>6 calls per expedition</strong><p>Including one starting analysis call, up to four exploration calls, and one scoring call.</p></article>
+          <article><span>Archive result</span><strong>At most 1 per expedition</strong><p>One validated research result is archived, or matched to a recent identical record, before cross-run comparison.</p></article>
+          <article><span>Daily publication</span><strong>At most 1 per UTC date</strong><p>A successful expedition publishes one selected archive record and then stops.</p></article>
         </div>
       </div>
     </section>
@@ -114,22 +114,22 @@
 
     <section class="section cyber-archive-section" id="archive">
       <div class="container">
-        <div class="exhibit-heading"><p class="eyebrow">Cross-run memory / 06</p><h2>Research that persists across runs</h2><p>Completed research is stored in a public archive. Recent records can then be scored against one another so the strongest current discovery can be published as the Daily Discovery.</p></div>
+        <div class="exhibit-heading"><p class="eyebrow">Cross-run memory / 06</p><h2>Research that persists across runs</h2><p>Completed research is stored in a public archive. Up to ten recent records can then be scored against one another so the highest-ranked candidate can be published as the Daily Discovery.</p></div>
         <div class="ops-signal-grid cyber-score-grid">
           <article class="ops-signal-card"><span>Evidence-based record</span><h3>Preserved research</h3><p>The archive keeps normalized evidence, analysis, exploration results, uncertainties, provenance, and the run’s explicit boundaries together.</p></article>
           <article class="ops-signal-card"><span>Bounded comparison</span><h3>Ten recent candidates</h3><p>One structured model call scores up to ten recent records for research value, evidence quality, novelty, interestingness, uncertainty, and archive recommendation quality.</p></article>
-          <article class="ops-signal-card"><span>Daily publication</span><h3>One selected record</h3><p>The application validates the component scores and recomputes the total before the winning archive record becomes the Daily Discovery.</p></article>
+          <article class="ops-signal-card"><span>Daily publication</span><h3>One selected record</h3><p>The application validates the component scores and recomputes the total before the top-ranked archive record becomes the Daily Discovery for that UTC date.</p></article>
         </div>
       </div>
     </section>
 
     <section class="section cyber-schedule-section" id="schedule">
       <div class="container">
-        <div class="exhibit-heading"><p class="eyebrow">Railway schedule / 07</p><h2>One bounded expedition each day</h2><p>Railway provides the external daily schedule. CyberSlooth wakes for one short-lived expedition, publishes at most one Daily Discovery, records the run, and exits.</p></div>
+        <div class="exhibit-heading"><p class="eyebrow">Railway schedule / 07</p><h2>At most one completed expedition each UTC day</h2><p>Railway provides the external daily schedule. Each CLI invocation either runs one short-lived expedition and exits or safely skips because that UTC date already has a completed run.</p></div>
         <div class="cyber-schedule-grid">
-          <article><span>External clock</span><h3>Railway starts the run</h3><p>CyberSlooth has no internal infinite scheduler, background crawl, or repeated expedition loop.</p></article>
-          <article><span>Daily guard</span><h3>One completion per UTC day</h3><p>Database-backed concurrency and idempotency guards block active overlap and expected same-day duplicates.</p></article>
-          <article><span>Safe recovery</span><h3>Failed runs remain retryable</h3><p>A failed expedition records sanitized failure metadata without consuming the completed-run guard for that UTC day.</p></article>
+          <article><span>External clock</span><h3>Railway starts the process</h3><p>The application contains no internal scheduler or repeated expedition loop.</p></article>
+          <article><span>Daily guard</span><h3>One completion per UTC day</h3><p>Database-backed guards block active overlap and another normal expedition after a same-day completion. The scheduled CLI treats that expected no-op as a successful skip.</p></article>
+          <article><span>Safe recovery</span><h3>Genuine failures remain failures</h3><p>A failed expedition records sanitized failure metadata, exits unsuccessfully, and remains retryable because it does not consume the completed-run guard for that UTC day.</p></article>
         </div>
       </div>
     </section>
@@ -157,9 +157,9 @@
             </button>
           </article>
           <article class="screenshot-card">
-            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/autonomous-run-status.png" data-title="Autonomous run status" data-caption="Publishes sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/cyberslooth/autonomous-run-status.png" data-title="Autonomous run status" data-caption="Shows sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.">
               <span class="screenshot-frame"><img src="/static/Images/cyberslooth/autonomous-run-status.png" alt="CyberSlooth autonomous run status showing a completed bounded expedition" loading="lazy"></span>
-              <span class="screenshot-copy"><span class="visual-step">04 / Verify</span><strong>Autonomous run status</strong><span>Publishes sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+              <span class="screenshot-copy"><span class="visual-step">04 / Verify</span><strong>Autonomous run status</strong><span>Shows sanitized schedule, run, page-budget, model-budget, publication, and failure metadata without exposing secrets.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
             </button>
           </article>
         </div>
