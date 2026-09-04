@@ -151,6 +151,12 @@ def ai_operations_assistant_page():
     return send_from_directory(BASE_DIR / "projects", "ai-operations-assistant.html")
 
 
+@app.get("/projects/irongate")
+@app.get("/projects/irongate.html")
+def irongate_page():
+    return send_from_directory(BASE_DIR / "projects", "irongate.html")
+
+
 @app.get("/projects/ai-corral")
 @app.get("/projects/ai-corral.html")
 def ai_corral_page():
