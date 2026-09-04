@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Greg Dougall builds practical systems with AI, automation, cybersecurity, and infrastructure.">
+  <title>Greg Dougall — Personal Project Studio</title>
+  <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="wordmark" href="#top" aria-label="Greg Dougall, home">Greg Dougall</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
+      <nav id="site-navigation" class="site-nav" aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#lab-notes">Lab Notes</a>
+        <a href="#now">Now</a>
+        <a href="#about">About</a>
+        <a href="#resume" aria-disabled="true" class="placeholder-link">Resume <span class="sr-only">(coming soon)</span></a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="button button-small nav-cta" href="#projects">View Projects</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Personal project studio</p>
+          <h1>Greg Dougall</h1>
+          <p class="hero-statement">Building practical systems with AI, automation, cybersecurity, and infrastructure.</p>
+          <p class="hero-support">I build practical systems, explore AI-assisted workflows, and study cybersecurity, networking, databases, and automation.</p>
+          <div class="hero-meta" aria-label="Location and focus">
+            <span><span class="status-dot" aria-hidden="true"></span>Tacoma, WA</span>
+            <span>Personal project studio</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button" href="#projects">Explore Projects</a>
+            <a class="text-link" href="#now">See What I’m Building Now <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Active system workspace with workflow, code, and network panels" role="group" tabindex="0">
+          <div class="visual-grid" aria-hidden="true"></div>
+          <div class="visual-window visual-workflow">
+            <div class="window-bar"><span></span><span></span><span></span><b>workflow.map</b></div>
+            <div class="flow-row"><span class="flow-node active">Input</span><i></i><span class="flow-node">Review</span><i></i><span class="flow-node success">Ship</span></div>
+            <div class="metric-row"><span><small>checks</small><strong>12/12</strong></span><span class="system-status"><small>status</small><strong aria-live="polite"><i aria-hidden="true"></i><span>detecting</span></strong></span></div>
+          </div>
+          <div class="visual-window visual-code">
+            <div class="window-label">automation.py</div>
+            <code><span>01</span> validate(input)<br><span>02</span> route → review<br><span>03</span> log(provenance)</code>
+          </div>
+          <div class="visual-window visual-network">
+            <span class="network-title">network / 04</span>
+            <svg viewBox="0 0 240 120" role="presentation">
+              <path d="M32 77 L94 35 L153 75 L207 28 M94 35 L118 102 M153 75 L207 95"/>
+              <circle cx="32" cy="77" r="7"/><circle cx="94" cy="35" r="9"/><circle cx="153" cy="75" r="7"/><circle cx="207" cy="28" r="6"/><circle cx="118" cy="102" r="6"/><circle cx="207" cy="95" r="8"/>
+            </svg>
+          </div>
+          <div class="visual-note"><span>PROJECT NOTE / 031</span><strong>Make the system explain itself.</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section projects-section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Selected work</p><h2>Featured projects</h2></div>
+          <p>Experiments and systems built around real constraints, clear workflows, and useful outcomes.</p>
+        </div>
+
+        <article class="project-card project-gnojo" id="project-gnojo">
+          <div class="project-copy">
+            <span class="project-index">01 / SYSTEMS</span>
+            <h3>Gnojo</h3>
+            <p class="project-subtitle">AI-assisted knowledge integrity and workflow management</p>
+            <p>Governed repairs, provenance, and human-reviewed automation.</p>
+            <ul class="tag-list" aria-label="Technologies"><li>Python</li><li>Flask</li><li>Workflow Engine</li><li>AI-assisted</li></ul>
+            <a class="project-link" href="projects/gnojo.html">Explore Gnojo <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="project-preview gnojo-preview" aria-label="Gnojo workflow interface preview" role="group">
+            <div class="preview-top"><span>GNOJO / REPAIR QUEUE</span><b>● 3 pending</b></div>
+            <div class="repair-layout">
+              <div class="repair-sidebar"><i></i><i></i><i></i><i></i></div>
+              <div class="repair-main">
+                <div class="repair-card"><span>Source record</span><strong>Policy Reference 042</strong><small>Integrity check complete</small></div>
+                <div class="repair-path"><span>propose</span><i></i><span>validate</span><i></i><span>approve</span></div>
+                <div class="repair-log"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+            <div class="demo-status" data-sequence="Issue detected|Repair proposed|Human review|Approved"><span class="demo-step">Ready to inspect</span><button type="button" class="demo-trigger" aria-label="Run Gnojo workflow demonstration">Run workflow</button></div>
+          </div>
+        </article>
+
+        <article class="project-card project-cyber" id="project-cyberslooth">
+          <div class="project-copy">
+            <span class="project-index">02 / RESEARCH</span>
+            <h3>CyberSlooth</h3>
+            <p class="project-subtitle">Internet archaeology, one day at a time</p>
+            <p>A daily public experiment in digging up forgotten corners of the internet.</p>
+            <ul class="tag-list" aria-label="Project focus"><li>Autonomous Research</li><li>Web Discovery</li><li>AI</li><li>Archive</li></ul>
+            <a class="project-link" href="#project-cyberslooth">Explore CyberSlooth <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="project-preview cyber-preview" aria-label="CyberSlooth internet archive preview" role="group">
+            <div class="scan-line" aria-hidden="true"></div>
+            <div class="cyber-date">ARCHIVE ENTRY / 1997.04.18</div>
+            <div class="cyber-terminal"><span>&gt; trace forgotten_host</span><span>&gt; index recovered</span><span class="terminal-glow">&gt; opening artifact_031...</span></div>
+            <div class="artifact-card"><small>FOUND OBJECT</small><strong>The homepage that time forgot</strong><span>signal strength / 78%</span></div>
+            <div class="cyber-coordinates">47.2529° N / 122.4443° W</div>
+            <div class="demo-status" data-sequence="Scanning archive|Artifact discovered|Evidence indexed|Case ready"><span class="demo-step">Archive standing by</span><button type="button" class="demo-trigger" aria-label="Run CyberSlooth archive demonstration">Start scan</button></div>
+          </div>
+        </article>
+
+        <article class="project-card project-smartfix" id="project-smartfix">
+          <div class="project-copy">
+            <span class="project-index">03 / OPERATIONS</span>
+            <h3>NW Home Fix <span>/ SmartFix</span></h3>
+            <p class="project-subtitle">Service workflows for a local handyman business</p>
+            <p>From service request to estimate to invoice.</p>
+            <ul class="tag-list" aria-label="Project focus"><li>Operations</li><li>Scheduling</li><li>Estimates</li><li>Customer Portal</li></ul>
+            <a class="project-link" href="#project-smartfix">Explore SmartFix <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="project-preview smartfix-preview" aria-label="SmartFix service operations dashboard preview" role="group">
+            <div class="smartfix-bar"><strong>Today’s work</strong><span>Thursday, 3 jobs</span></div>
+            <div class="job-grid">
+              <div class="schedule"><span>8:30</span><span>11:00</span><span>2:30</span></div>
+              <div class="jobs"><div><b>Deck repair</b><small>Estimate approved</small></div><div><b>Door adjustment</b><small>In progress</small></div><div><b>Fixture install</b><small>Scheduled</small></div></div>
+            </div>
+            <div class="invoice-chip">Estimate → Job → Invoice</div>
+            <div class="demo-status" data-sequence="Request received|Estimate prepared|Customer approved|Job scheduled"><span class="demo-step">Workflow ready</span><button type="button" class="demo-trigger" aria-label="Run SmartFix service workflow demonstration">Run workflow</button></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="corral-home-entry" aria-labelledby="corral-home-title">
+      <div class="container corral-home-card">
+        <div class="corral-home-mark" aria-hidden="true"><span>AI</span><i></i><strong>✓</strong></div>
+        <div><p class="eyebrow">Lab experiment / Frontend simulation</p><h2 id="corral-home-title">AI Corral</h2><p>Can you make the AI buck? Set deterministic restraints, test a simulated response, and see whether the guardrails hold.</p></div>
+        <a class="button" href="projects/ai-corral.html">Enter the Corral <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section now-section" id="now">
+      <div class="container">
+        <div class="section-heading compact"><div><p class="eyebrow">Current focus</p><h2>What I’m working on now</h2></div></div>
+        <div class="now-grid">
+          <article class="now-building"><div class="now-marker"><span class="now-number">01</span><span class="now-icon" aria-hidden="true">↗</span></div><h3>Building</h3><ul><li>Gnojo</li><li>CyberSlooth</li></ul></article>
+          <article class="now-learning"><div class="now-marker"><span class="now-number">02</span><span class="now-icon" aria-hidden="true">＋</span></div><h3>Learning</h3><ul><li>Database design</li><li>SQL</li><li>Network+</li><li>Cybersecurity</li></ul></article>
+          <article class="now-exploring"><div class="now-marker"><span class="now-number">03</span><span class="now-icon" aria-hidden="true">⌁</span></div><h3>Exploring</h3><ul><li>Autonomous AI workflows</li><li>Graph relationships</li><li>Digital archaeology</li></ul></article>
+          <article class="now-finished"><div class="now-marker"><span class="now-number">04</span><span class="now-icon" aria-hidden="true">✓</span></div><h3>Recently Finished</h3><ul><li>Project IronGate</li><li>NW Home Fix improvements</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section notes-section" id="lab-notes">
+      <div class="container">
+        <div class="section-heading compact"><div><p class="eyebrow">Field journal</p><h2>Lab notes</h2></div><p>Questions, discoveries, and working ideas from the studio.</p></div>
+        <div class="notes-grid">
+          <article class="note-card"><button class="note-toggle" type="button" aria-expanded="false" aria-controls="note-detail-1"><span class="note-meta"><span>Research</span><time datetime="2025-02-18">Feb 18, 2025</time></span><span class="note-title">“Exploring whether autonomous research can power a genuinely interesting daily website.”</span><span class="note-control"><span>Read note</span><i aria-hidden="true">＋</i></span></button><div class="note-detail" id="note-detail-1" aria-hidden="true"><p>The interesting part is not simply finding old pages—it is building a repeatable process that can surface context, verify connections, and leave a useful trail for readers.</p></div></article>
+          <article class="note-card"><button class="note-toggle" type="button" aria-expanded="false" aria-controls="note-detail-2"><span class="note-meta"><span>Systems</span><time datetime="2025-02-06">Feb 06, 2025</time></span><span class="note-title">“Thinking about how to let AI repair content without silently changing production data.”</span><span class="note-control"><span>Read note</span><i aria-hidden="true">＋</i></span></button><div class="note-detail" id="note-detail-2" aria-hidden="true"><p>A useful repair workflow should show its source, proposed change, validation result, and approval state—making human judgment part of the system rather than an afterthought.</p></div></article>
+          <article class="note-card"><button class="note-toggle" type="button" aria-expanded="false" aria-controls="note-detail-3"><span class="note-meta"><span>Learning</span><time datetime="2025-01-24">Jan 24, 2025</time></span><span class="note-title">“Learning how database relationships can become the foundation for better operational software.”</span><span class="note-control"><span>Read note</span><i aria-hidden="true">＋</i></span></button><div class="note-detail" id="note-detail-3" aria-hidden="true"><p>When the relationships are modeled clearly, estimates, customers, jobs, and invoices stop behaving like separate documents and start working as one coherent system.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="container about-grid">
+        <div class="profile-placeholder" role="img" aria-label="Neutral profile image placeholder"><span>GD</span><small>Profile image</small></div>
+        <div class="about-copy"><p class="eyebrow">About</p><h2>About Greg</h2><p>I’m transitioning deeper into IT and cybersecurity while building practical systems that solve real problems. I enjoy taking messy processes, understanding the constraints, and building tools that make them better. I learn by doing.</p><a class="text-link" href="contact.html">Start a conversation <span aria-hidden="true">↘</span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="container footer-top">
+      <div><a class="wordmark footer-wordmark" href="#top">Greg Dougall</a><p>Practical systems, thoughtfully built.</p></div>
+      <nav aria-label="Footer navigation"><a href="#projects">Projects</a><a href="#resume" aria-disabled="true" class="placeholder-link">Resume <span class="sr-only">(coming soon)</span></a><a href="contact.html">Contact</a></nav>
+      <div class="social-placeholders" aria-label="Social links coming soon"><button type="button" disabled title="GitHub link coming soon">GitHub</button><button type="button" disabled title="LinkedIn link coming soon">LinkedIn</button><button type="button" disabled title="Email link coming soon">Email</button></div>
+    </div>
+    <div class="container footer-bottom"><span>© <span id="current-year">2025</span> Greg Dougall</span><span>Tacoma, Washington</span></div>
+  </footer>
+
+  <script src="static/js/main.js" defer></script>
+</body>
+</html>

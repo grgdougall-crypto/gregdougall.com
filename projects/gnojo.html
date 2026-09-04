@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Gnojo, an active experiment in AI-assisted knowledge integrity, governed repair, and human-reviewed automation.">
+  <title>Gnojo — Greg Dougall</title>
+  <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body class="gnojo-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header exhibit-header">
+    <div class="container nav-shell">
+      <a class="wordmark" href="../index.html" aria-label="Greg Dougall, home">Greg Dougall</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav id="site-navigation" class="site-nav" aria-label="Primary navigation"><a href="../index.html#projects">Projects</a><a href="#inspection">Inspection</a><a href="#workflow">Workflow</a><a href="#evolution">Evolution</a><a href="../contact.html">Contact</a></nav>
+      <a class="button button-small nav-cta" href="../index.html#projects">Back to Projects</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="exhibit-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">GregDougall.com</a><span aria-hidden="true">/</span><a href="../index.html#projects">Projects</a><span aria-hidden="true">/</span><span aria-current="page">Gnojo</span></nav>
+        <div class="exhibit-hero-grid">
+          <div>
+            <p class="eyebrow">Interactive project exhibit</p>
+            <h1>Gnojo</h1>
+            <p class="exhibit-subtitle">AI-assisted knowledge integrity and workflow management</p>
+            <p class="exhibit-intro">Gnojo began as a guided IT troubleshooting application and evolved into an experiment in maintaining operational knowledge, detecting integrity problems, and safely proposing repairs while preserving human oversight.</p>
+            <a class="button" href="#inspection">Explore How It Works <span aria-hidden="true">↓</span></a>
+          </div>
+          <aside class="project-facts" aria-label="Project status and concepts">
+            <div class="active-status"><span aria-hidden="true"></span>Active development</div>
+            <ul class="tag-list"><li>Python</li><li>Flask</li><li>Workflow Engine</li><li>Knowledge Integrity</li><li>Human Review</li><li>AI-assisted</li></ul>
+            <div class="hero-system-map" aria-hidden="true"><span>detect</span><i></i><span>explain</span><i></i><span>propose</span><i></i><strong>review</strong></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-band">
+      <div class="container status-callout"><span class="status-label">Project status: Active development</span><p>Gnojo is an ongoing personal engineering project rather than a public SaaS product. This exhibit uses controlled simulations and project visuals to demonstrate the underlying systems without exposing the development environment.</p></div>
+    </section>
+
+    <section class="section exhibit-section" id="inspection">
+      <div class="container narrow-container">
+        <div class="exhibit-heading"><p class="eyebrow">Controlled simulation / 01</p><h2>Curator inspection</h2><p>Inspect a sample knowledge item for broken structure and missing context. Nothing here connects to Gnojo or changes real data.</p></div>
+        <div class="curator-shell" data-curator>
+          <div class="simulation-ribbon">Simulation only</div>
+          <div class="knowledge-record">
+            <div><span class="record-type">Article</span><h3>Cannot connect to Wi-Fi</h3></div>
+            <dl><div><dt>Source</dt><dd>Microsoft</dd></div><div><dt>Review status</dt><dd class="warning-value">Missing</dd></div><div><dt>Workflow relationship</dt><dd class="warning-value">Broken</dd></div><div><dt>Provenance</dt><dd class="warning-value">Missing</dd></div></dl>
+            <button class="button curator-trigger" type="button">Run Curator Inspection</button>
+          </div>
+          <div class="inspection-progress" aria-live="polite"><span class="progress-dot" aria-hidden="true"></span><strong>Ready for inspection</strong></div>
+          <div class="inspection-results simulated-reveal" aria-live="polite">
+            <div class="results-header"><span>Inspection complete</span><strong>2 findings detected</strong></div>
+            <div class="findings-grid">
+              <button class="finding-card finding-select" type="button" aria-pressed="false" data-finding="broken"><span>Finding 1</span><strong>Broken relationship</strong><p>The workflow references an article identifier that no longer resolves.</p><small>Select to inspect repair →</small></button>
+              <article class="finding-card"><span>Finding 2</span><strong>Missing provenance</strong><p>The published content does not currently have complete review/source provenance.</p></article>
+            </div>
+          </div>
+
+          <div class="repair-simulator simulated-reveal" data-repair>
+            <div class="repair-heading"><div><span class="record-type">Selected finding</span><h3>Broken relationship</h3></div><span class="simulation-badge">Preview only</span></div>
+            <div class="repair-comparison">
+              <div><span>Before</span><p>Workflow node → <strong>unresolved article identifier</strong></p></div>
+              <div class="proposed-state"><span>Proposed</span><p>Reconnect workflow node → <strong>canonical article</strong></p></div>
+              <div><span>After</span><p>Relationship resolves successfully</p></div>
+            </div>
+            <div class="repair-actions"><button class="button repair-preview-trigger" type="button">Preview Repair</button><button class="secondary-button approve-trigger" type="button" disabled>Approve Simulation</button></div>
+            <div class="repair-validation" aria-live="polite"><span>Waiting for preview</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section boundary-section" id="boundaries">
+      <div class="container">
+        <div class="exhibit-heading split-heading"><div><p class="eyebrow">Control model / 02</p><h2>AI with boundaries</h2></div><p>The model can assist with analysis and proposals. Consequential action remains behind an explicit human decision.</p></div>
+        <div class="boundary-panel" data-boundary>
+          <div class="boundary-column can-do"><span>AI can</span><ul><li>Detect</li><li>Explain</li><li>Propose</li><li>Preview</li></ul></div>
+          <div class="approval-gate"><div class="gate-line" aria-hidden="true"></div><span class="gate-status" aria-live="polite">System standing by</span><button class="button boundary-trigger" type="button">Propose a Repair</button><small>Controlled simulation</small></div>
+          <div class="boundary-column cannot-do"><span>AI cannot</span><ul><li>Publish independently</li><li>Override approval</li><li>Hide provenance</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section workflow-section" id="workflow">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">System path / 03</p><h2>Follow a knowledge item</h2><p>Select a stage to see why it exists in the governed repair path.</p></div>
+        <div class="stage-list" role="tablist" aria-label="Knowledge item workflow">
+          <button role="tab" aria-selected="true" data-stage-detail="A reviewed piece of operational guidance available to the people and workflows that depend on it.">Published Article</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="Checks content quality, provenance, relationships, and known integrity rules.">Curator Inspection</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="A specific defect, risk, or inconsistency has been identified.">Finding</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="Guides the reviewer through the issue and available repair path.">Fix Wizard</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="Shows the intended change before anything is committed.">Repair Preview</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="A reviewer explicitly approves consequential changes.">Human Approval</button>
+          <span aria-hidden="true">→</span><button role="tab" aria-selected="false" data-stage-detail="The system confirms the repair and preserves review history.">Validated Repair</button>
+        </div>
+        <div class="stage-explanation" role="tabpanel" tabindex="0"><span>Published Article</span><p>A reviewed piece of operational guidance available to the people and workflows that depend on it.</p></div>
+      </div>
+    </section>
+
+    <section class="section evolution-section" id="evolution">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Project evolution / 04</p><h2>From answers to integrity</h2><p>Gnojo’s scope changed as each solved problem exposed a deeper systems question.</p></div>
+        <div class="timeline-tabs" role="tablist" aria-label="Gnojo project evolution">
+          <button role="tab" aria-selected="true" data-timeline-detail="The project began by guiding a person through practical IT troubleshooting steps.">Guided Troubleshooting</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Reusable troubleshooting guidance became a structured body of operational knowledge.">Knowledge Base</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Curator introduced a way to examine knowledge for quality, context, and review gaps.">Curator</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Integrity rules expanded the focus from individual articles to the health of the system around them.">Integrity Engine</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Fix Wizard turned detected problems into guided, reviewable repair paths.">Fix Wizard</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Structural repairs became governed changes with previews, validation, provenance, and approval.">Governed Structural Repair</button>
+          <button role="tab" aria-selected="false" data-timeline-detail="Today, Gnojo explores how deterministic controls can safely surround AI-assisted operational knowledge work.">Today</button>
+        </div>
+        <div class="timeline-explanation" role="tabpanel" tabindex="0"><span>Guided Troubleshooting</span><p>The project began by guiding a person through practical IT troubleshooting steps.</p></div>
+      </div>
+    </section>
+
+    <section class="section visuals-section">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Project visuals / 05</p><h2>Inside the system</h2><p>Three views of Gnojo’s detect, guide, and govern workflow.</p></div>
+        <div class="project-visual-grid">
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="../static/images/gnojo/gnojo-curator-dashboard.jpeg" data-title="Curator Dashboard" data-caption="Surfaces knowledge debt, integrity findings, and prioritized maintenance work across the system.">
+              <span class="screenshot-frame"><img src="../static/images/gnojo/gnojo-curator-dashboard.jpeg" alt="Gnojo Curator Dashboard showing knowledge integrity findings and maintenance priorities" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">01 / Detect</span><strong>Curator Dashboard</strong><span>Surfaces knowledge debt, integrity findings, and prioritized maintenance work across the system.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="../static/images/gnojo/gnojo-fix-wizard.jpeg" data-title="Fix Wizard" data-caption="Turns integrity findings into a guided, reviewable repair path while keeping consequential decisions with the reviewer.">
+              <span class="screenshot-frame"><img src="../static/images/gnojo/gnojo-fix-wizard.jpeg" alt="Gnojo Fix Wizard guiding a reviewer through a proposed integrity repair" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">02 / Guide</span><strong>Fix Wizard</strong><span>Turns integrity findings into a guided, reviewable repair path while keeping consequential decisions with the reviewer.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="../static/images/gnojo/gnojo-governed-review.jpeg" data-title="Human-reviewed repair decision" data-caption="Curator can verify, recommend, and preview a repair, but the reviewer controls the consequential decision.">
+              <span class="screenshot-frame"><img src="../static/images/gnojo/gnojo-governed-review.jpeg" alt="Gnojo governed review screen showing a human-controlled repair decision" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">03 / Govern</span><strong>Human-reviewed repair decision</strong><span>Curator can verify, recommend, and preview a repair, but the reviewer controls the consequential decision.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ideas-section">
+      <div class="container ideas-grid">
+        <div><p class="eyebrow">Engineering ideas</p><h2>What makes Gnojo interesting</h2></div>
+        <ul class="ideas-list"><li><span>01</span>AI proposes rather than silently publishes.</li><li><span>02</span>Provenance and review history matter.</li><li><span>03</span>Repairs can be previewed before execution.</li><li><span>04</span>Structural relationships are treated as first-class data.</li><li><span>05</span>Workflows evolve as new integrity problems are discovered.</li><li><span>06</span>Deterministic controls surround probabilistic AI behavior.</li></ul>
+      </div>
+    </section>
+
+    <section class="section deeper-section">
+      <div class="container deeper-panel"><div><p class="eyebrow">Continue exploring</p><h2>Go deeper</h2><p>Gnojo is still being built. Source access and project-grounded AI exploration will be connected here when they are ready.</p></div><div class="deeper-actions"><button class="placeholder-action" type="button" disabled>View Source on GitHub <small>Unavailable</small></button><button class="placeholder-action" type="button" disabled>Ask My Projects about Gnojo <small>Planned feature</small></button><a class="button" href="../index.html#projects">Back to Projects</a></div></div>
+    </section>
+  </main>
+
+  <dialog class="image-lightbox" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
+    <div class="lightbox-panel">
+      <button class="lightbox-close" type="button" aria-label="Close image viewer" data-lightbox-close><span aria-hidden="true">×</span></button>
+      <figure><img src="" alt="" data-lightbox-image><figcaption><span class="visual-step">Gnojo project visual</span><h2 id="lightbox-title"></h2><p id="lightbox-caption"></p></figcaption></figure>
+    </div>
+  </dialog>
+
+  <footer class="site-footer"><div class="container footer-bottom"><span>Gnojo / Interactive project exhibit</span><a href="../index.html">GregDougall.com</a></div></footer>
+  <script src="../static/js/main.js" defer></script>
+</body>
+</html>

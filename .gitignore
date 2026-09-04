@@ -1,0 +1,25 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Editors and temporary files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
