@@ -107,7 +107,7 @@ h1 { margin-bottom: 22px; font-family: Georgia, "Times New Roman", serif; font-s
 .project-copy > p:not(.project-subtitle) { color: var(--muted); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; padding: 0; list-style: none; }
 .tag-list li { padding: 7px 11px; border: 1px solid #d5ddd8; border-radius: 999px; color: #58645f; background: rgba(255,255,255,.7); font-size: .72rem; font-weight: 700; }
-.project-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 27px; font-size: .9rem; font-weight: 800; text-decoration: none; }
+.project-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 27px; font-size: .9rem; font-weight: 800; text-decoration: none; }.project-link[aria-disabled="true"] { opacity:.72;cursor:not-allowed; }.project-link small { font-size:.62rem;letter-spacing:.05em;text-transform:uppercase; }
 .project-link span { transition: transform .2s ease; }
 .project-link:hover span, .project-link:focus-visible span { transform: translateX(4px); }
 .project-cyber .project-link { color: #8bd9c0; }
@@ -228,7 +228,7 @@ h1 { margin-bottom: 22px; font-family: Georgia, "Times New Roman", serif; font-s
 .footer-top p { margin-top: 7px; color: #9aa8a3; font-size: .9rem; }
 .site-footer nav, .social-placeholders { display: flex; gap: 26px; }
 .site-footer nav a { color: #a9b5b0; }
-.social-placeholders button { padding: 0; border: 0; color: #8d9b96; background: none; font-weight: 600; cursor: not-allowed; }
+.social-placeholders a,.social-placeholders button { padding: 0; border: 0; color: #8d9b96; background: none; font:inherit;font-size:.82rem;font-weight:600; }.social-placeholders a { color:#a9b5b0; }.social-placeholders a:hover,.social-placeholders a:focus-visible { color:#fff; }.social-placeholders button { cursor:not-allowed; }
 .footer-bottom { display: flex; justify-content: space-between; margin-top: 62px; padding-top: 20px; border-top: 1px solid #26302d; color: #87948f; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
 
 :focus-visible { outline: 3px solid #4ea892; outline-offset: 4px; }
