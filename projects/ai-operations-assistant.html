@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore AI Operations Assistant, a deployed Flask application for AI-assisted operational reporting and risk analysis.">
+  <title>AI Operations Assistant — Greg Dougall</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="operations-exhibit-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header exhibit-header">
+    <div class="container nav-shell">
+      <a class="wordmark" href="/" aria-label="Greg Dougall, home">Greg Dougall</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav id="site-navigation" class="site-nav" aria-label="Primary navigation"><a href="#workflow">How it works</a><a href="#risk">Risk</a><a href="#boundaries">Boundaries</a><a href="#visuals">Visuals</a><a href="/contact">Contact</a></nav>
+      <a class="button button-small nav-cta" href="/#projects">Back to Projects</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="exhibit-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">GregDougall.com</a><span aria-hidden="true">/</span><a href="/#projects">Projects</a><span aria-hidden="true">/</span><span aria-current="page">AI Operations Assistant</span></nav>
+        <div class="exhibit-hero-grid">
+          <div>
+            <p class="eyebrow">Live application</p>
+            <h1>AI Operations Assistant</h1>
+            <p class="exhibit-subtitle">AI-assisted operational reporting and risk analysis</p>
+            <p class="exhibit-intro">A deployed Flask application that turns structured operational data into concise reports, risk analysis, and decision-ready summaries.</p>
+            <div class="exhibit-hero-actions">
+              <a class="button" href="https://ai-operations-assistant-5o3p.onrender.com" target="_blank" rel="noopener noreferrer">Live Demo <span aria-hidden="true">→</span></a>
+              <a class="text-link" href="https://github.com/grgdougall-crypto/ai-operations-assistant" target="_blank" rel="noopener noreferrer">View Source on GitHub <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <aside class="project-facts" aria-label="Project status and technologies">
+            <div class="active-status"><span aria-hidden="true"></span>Live on Render</div>
+            <ul class="tag-list"><li>Python</li><li>Flask</li><li>SQLite</li><li>Chart.js</li><li>AI-assisted</li></ul>
+            <div class="hero-system-map" aria-hidden="true"><span>input</span><i></i><span>analysis</span><i></i><span>risk</span><i></i><strong>report</strong></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section exhibit-section ops-process-section" id="workflow">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Reporting flow / 01</p><h2>From operational data to usable reporting</h2><p>The application accepts structured operational inputs, applies deterministic processing and AI-assisted analysis, and produces concise reports designed to surface important conditions without requiring the user to interpret raw data.</p></div>
+        <div class="operations-flow" aria-label="Operational reporting process">
+          <div class="operations-step"><span>01</span><strong>Structured Input</strong></div>
+          <div class="operations-step"><span>02</span><strong>Analysis</strong></div>
+          <div class="operations-step"><span>03</span><strong>Risk Context</strong></div>
+          <div class="operations-step"><span>04</span><strong>Operational Summary</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ops-risk-section" id="risk">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">Operational risk / 02</p><h2>Making risk easier to see</h2><p>Instead of presenting raw metrics alone, the application organizes operational conditions into clear risk context so a reviewer can quickly identify what deserves attention.</p></div>
+        <div class="ops-signal-grid">
+          <article class="ops-signal-card"><span>Severity</span><h3>Priority and category</h3><p>Severity scoring and category views help separate critical risks from the broader portfolio.</p></article>
+          <article class="ops-signal-card"><span>Timing</span><h3>SLA health</h3><p>SLA assignment, breach state, and due dates make time-sensitive risk visible.</p></article>
+          <article class="ops-signal-card"><span>Ownership</span><h3>Workload context</h3><p>Owner workload views show where active risk is concentrated across the operation.</p></article>
+          <article class="ops-signal-card"><span>Traceability</span><h3>Report context</h3><p>Activity history, AI-source attribution, and exports preserve context around each report.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section boundary-section" id="boundaries">
+      <div class="container">
+        <div class="exhibit-heading split-heading"><div><p class="eyebrow">Control model / 03</p><h2>AI assists the report, not the operation</h2></div><p>AI helps explain patterns, summarize operational conditions, and organize findings. It does not execute operational actions or make decisions on the user's behalf.</p></div>
+        <div class="boundary-panel">
+          <div class="boundary-column can-do"><span>AI can</span><ul><li>Summarize structured information</li><li>Explain operational patterns</li><li>Organize risk findings</li><li>Produce concise report language</li></ul></div>
+          <div class="approval-gate ops-boundary-gate"><div class="gate-line" aria-hidden="true"></div><span class="gate-status">Report support</span><strong>Human decisions stay outside the model</strong><small>Analysis only</small></div>
+          <div class="boundary-column cannot-do"><span>AI cannot</span><ul><li>Change source data</li><li>Execute operational actions</li><li>Approve decisions</li><li>Operate independently</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section visuals-section" id="visuals">
+      <div class="container">
+        <div class="exhibit-heading"><p class="eyebrow">System visuals / 04</p><h2>Inside the application</h2><p>Real project views show how the application brings operational posture, individual risk context, and executive reporting into a focused review workflow.</p></div>
+        <div class="project-visual-grid">
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/ai-operations-assistant/dashboard-overview.png" data-title="Executive risk dashboard" data-caption="Brings portfolio posture, active risk counts, SLA conditions, and an AI-assisted executive summary into one review surface.">
+              <span class="screenshot-frame"><img src="/static/Images/ai-operations-assistant/dashboard-overview.png" alt="AI Operations Assistant executive dashboard showing operational risk posture and an AI-assisted summary" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">01 / Overview</span><strong>Executive risk dashboard</strong><span>Brings portfolio posture, active risk counts, SLA conditions, and an AI-assisted executive summary into one review surface.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/ai-operations-assistant/risk-detail-analysis.png" data-title="Risk detail and AI analysis" data-caption="Pairs structured risk fields with an attributed recommendation and rationale so the reviewer can evaluate the finding in context.">
+              <span class="screenshot-frame"><img src="/static/Images/ai-operations-assistant/risk-detail-analysis.png" alt="AI Operations Assistant risk detail view with structured fields, AI recommendation, and rationale" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">02 / Analyze</span><strong>Risk detail and AI analysis</strong><span>Pairs structured risk fields with an attributed recommendation and rationale so the reviewer can evaluate the finding in context.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+          <article class="screenshot-card">
+            <button class="screenshot-trigger" type="button" aria-haspopup="dialog" data-image="/static/Images/ai-operations-assistant/executive-reporting.png" data-title="Executive risk report" data-caption="Transforms the active portfolio into a readable report with posture, KPI snapshots, operational insights, and AI-assisted summary language.">
+              <span class="screenshot-frame"><img src="/static/Images/ai-operations-assistant/executive-reporting.png" alt="AI Operations Assistant executive risk report with posture, KPI snapshot, and operational insights" loading="lazy"></span>
+              <span class="screenshot-copy"><span class="visual-step">03 / Report</span><strong>Executive risk report</strong><span>Transforms the active portfolio into a readable report with posture, KPI snapshots, operational insights, and AI-assisted summary language.</span><small>View larger <span aria-hidden="true">↗</span></small></span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section deeper-section">
+      <div class="container deeper-panel">
+        <div><p class="eyebrow">Continue exploring</p><h2>Explore the project</h2><p>The live deployment shows the application in use, while the repository documents the implementation and project structure.</p></div>
+        <div class="deeper-actions">
+          <a class="button" href="https://ai-operations-assistant-5o3p.onrender.com" target="_blank" rel="noopener noreferrer">Live Demo <span aria-hidden="true">→</span></a>
+          <a class="button ops-button-outline" href="https://github.com/grgdougall-crypto/ai-operations-assistant" target="_blank" rel="noopener noreferrer">View Source on GitHub <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="/#projects">Back to Projects <span aria-hidden="true">←</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="image-lightbox" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
+    <div class="lightbox-panel">
+      <button class="lightbox-close" type="button" aria-label="Close image viewer" data-lightbox-close><span aria-hidden="true">×</span></button>
+      <figure><img src="" alt="" data-lightbox-image><figcaption><span class="visual-step">AI Operations Assistant project visual</span><h2 id="lightbox-title"></h2><p id="lightbox-caption"></p></figcaption></figure>
+    </div>
+  </dialog>
+
+  <footer class="site-footer"><div class="container footer-bottom"><span>AI Operations Assistant / Project exhibit</span><a href="/">GregDougall.com</a></div></footer>
+  <script src="/static/js/main.js" defer></script>
+</body>
+</html>

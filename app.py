@@ -145,6 +145,12 @@ def gnojo_page():
     return send_from_directory(BASE_DIR / "projects", "gnojo.html")
 
 
+@app.get("/projects/ai-operations-assistant")
+@app.get("/projects/ai-operations-assistant.html")
+def ai_operations_assistant_page():
+    return send_from_directory(BASE_DIR / "projects", "ai-operations-assistant.html")
+
+
 @app.get("/projects/ai-corral")
 @app.get("/projects/ai-corral.html")
 def ai_corral_page():
