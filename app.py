@@ -173,8 +173,25 @@ def contact_api():
 
     try:
         send_contact_email(config, contact)
-    except (url_error.HTTPError, url_error.URLError, TimeoutError, RuntimeError):
-        app.logger.warning("Contact email delivery failed.")
+    except url_error.HTTPError as exc:
+        try:
+            provider_body = exc.read(4096).decode("utf-8", errors="replace")
+        except Exception:
+            provider_body = "Provider response body unavailable."
+        sensitive_values = [*config.values(), contact["name"], contact["email"], contact["company"], contact["message"]]
+        for sensitive_value in sorted(filter(None, sensitive_values), key=len, reverse=True):
+            provider_body = provider_body.replace(sensitive_value, "[redacted]")
+        app.logger.warning("Resend request failed with HTTP %s: %s", exc.code, provider_body[:1000])
+        return _json_error("Your message could not be sent. Please try again later.", 502)
+    except url_error.URLError as exc:
+        reason = exc.reason
+        app.logger.warning("Resend request failed with %s: %s", type(reason).__name__, reason)
+        return _json_error("Your message could not be sent. Please try again later.", 502)
+    except TimeoutError:
+        app.logger.warning("Resend provider request timed out.")
+        return _json_error("Your message could not be sent. Please try again later.", 502)
+    except RuntimeError as exc:
+        app.logger.warning("Resend request failed: %s", exc)
         return _json_error("Your message could not be sent. Please try again later.", 502)
 
     return jsonify({"ok": True, "message": "Your message was sent. Thanks for reaching out."})
