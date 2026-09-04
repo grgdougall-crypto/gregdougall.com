@@ -451,6 +451,8 @@ if (corral) {
 const contactForm = document.querySelector('[data-contact-form]');
 if (contactForm) {
   const contactStatus = contactForm.querySelector('.contact-status');
+  const submitButton = contactForm.querySelector('.contact-submit');
+  const defaultButtonLabel = submitButton.textContent;
   const fields = {
     name: contactForm.querySelector('#contact-name'),
     email: contactForm.querySelector('#contact-email'),
@@ -467,6 +469,17 @@ if (contactForm) {
   function setFieldError(key, message) {
     fields[key].setAttribute('aria-invalid', String(Boolean(message)));
     errors[key].textContent = message;
+  }
+
+  function setContactStatus(label, heading, message, isError = false) {
+    const statusLabel = document.createElement('span');
+    const statusHeading = document.createElement('h3');
+    const statusMessage = document.createElement('p');
+    statusLabel.textContent = label;
+    statusHeading.textContent = heading;
+    statusMessage.textContent = message;
+    contactStatus.replaceChildren(statusLabel, statusHeading, statusMessage);
+    contactStatus.classList.toggle('is-error', isError);
   }
 
   function validateContactField(key) {
@@ -487,20 +500,45 @@ if (contactForm) {
     field.addEventListener(field.tagName === 'SELECT' ? 'change' : 'blur', () => validateContactField(key));
     field.addEventListener('input', () => {
       if (field.getAttribute('aria-invalid') === 'true') validateContactField(key);
-      contactStatus.classList.remove('is-visible');
+      contactStatus.classList.remove('is-visible', 'is-error');
     });
   });
 
-  contactForm.addEventListener('submit', (event) => {
+  contactForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    contactStatus.classList.remove('is-visible');
+    contactStatus.classList.remove('is-visible', 'is-error');
     const invalidKey = Object.keys(fields).find((key) => !validateContactField(key));
     Object.keys(fields).forEach((key) => validateContactField(key));
     if (invalidKey) {
       fields[invalidKey].focus();
       return;
     }
-    contactStatus.classList.add('is-visible');
-    contactStatus.focus();
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending…';
+    contactForm.setAttribute('aria-busy', 'true');
+
+    try {
+      const formData = new FormData(contactForm);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData.entries()))
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.error || 'Your message could not be sent. Please try again.');
+
+      setContactStatus('Message sent', 'Thanks for reaching out.', 'Your note is on its way to Greg.');
+      contactForm.reset();
+      Object.keys(fields).forEach((key) => setFieldError(key, ''));
+    } catch (error) {
+      setContactStatus('Message not sent', 'Please try again.', error.message, true);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = defaultButtonLabel;
+      contactForm.removeAttribute('aria-busy');
+      contactStatus.classList.add('is-visible');
+      contactStatus.focus();
+    }
   });
 }
