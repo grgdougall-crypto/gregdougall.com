@@ -462,18 +462,60 @@ body.lightbox-open { overflow: hidden; }
 .irongate-exhibit-page .screenshot-frame { background: #071c2a; }
 .irongate-exhibit-page .deeper-actions .button { margin-top: 0; }
 .irongate-exhibit-page .site-footer { padding-top: 24px; }.irongate-exhibit-page .site-footer .footer-bottom { margin-top: 0; }.irongate-exhibit-page .site-footer a { color: #abb9b4; text-decoration: none; }
+
+/* SmartFix / NW Home Fix project exhibit */
+.smartfix-exhibit-page { background: #f7f3eb; }
+.smartfix-exhibit-page .exhibit-hero { background: #f7f3eb; }
+.smartfix-exhibit-page .exhibit-hero h1 { max-width: 860px; color: #26332d; font-size: clamp(4.5rem, 9vw, 8rem); }
+.smartfix-secondary-identity { margin: -8px 0 24px; color: #8c6341; font: 700 .78rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+.smartfix-status-band { background: #654934; }
+.smartfix-status-band .status-callout p { color: #eadfd3; }
+.smartfix-service-flow { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.smartfix-service-flow .operations-step { min-height: 160px; padding: 24px 20px; border-color: #ddcfbd; background: #fbf8f2; }
+.smartfix-service-flow .operations-step:not(:last-child)::after { right: -24px; }
+.smartfix-service-flow .operations-step strong { margin-top: 28px; font-size: 1.38rem; }
+.smartfix-request-section { background: #eee5d8; }
+.smartfix-request-section .learning-detail-card { border-color: #d9cab8; background: rgba(255,253,248,.88); }
+.smartfix-request-section .learning-detail-card span { color: #8c6341; }
+.smartfix-coordination-section { color: #f2ede5; background: #1c2923; }
+.smartfix-coordination-section .eyebrow { color: #d3a77f; }
+.smartfix-coordination-section .exhibit-heading > p:last-child { color: #c0cbc5; }
+.smartfix-coordination-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.smartfix-coordination-grid article { padding: 29px; border: 1px solid #45554d; border-radius: 18px; background: #26352e; }
+.smartfix-coordination-grid span { display: block; color: #d3a77f; font: 800 .67rem ui-monospace, monospace; letter-spacing: .09em; text-transform: uppercase; }
+.smartfix-coordination-grid h3 { margin: 15px 0 10px; font: 400 1.7rem/1.1 Georgia, serif; }
+.smartfix-coordination-grid p { margin: 0; color: #bdc9c3; }
+.smartfix-invoice-section { background: #fff; }
+.smartfix-context-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.smartfix-context-path article { padding: 29px; border-top: 3px solid #8c6341; border-radius: 0 0 18px 18px; background: #f6f0e7; }
+.smartfix-context-path span { display: block; color: #8c6341; font: 800 .67rem ui-monospace, monospace; letter-spacing: .09em; text-transform: uppercase; }
+.smartfix-context-path h3 { margin: 15px 0 10px; font: 400 1.7rem/1.1 Georgia, serif; }
+.smartfix-context-path p { margin: 0; color: var(--muted); }
+.smartfix-operations-section { background: #f1f4f0; }
+.smartfix-operations-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.smartfix-operations-grid .ops-signal-card span { color: #8c6341; }
+.smartfix-visual-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.smartfix-exhibit-page .screenshot-frame { background: #e8ddcd; }
+.smartfix-exhibit-page .deeper-section { background: #e9dfd0; }
+.smartfix-exhibit-page .deeper-panel { border-color: #d2c1aa; }
+.smartfix-exhibit-page .deeper-actions .button { margin-top: 0; }
+.smartfix-exhibit-page .site-footer { padding-top: 24px; }
+.smartfix-exhibit-page .site-footer .footer-bottom { margin-top: 0; }
+.smartfix-exhibit-page .site-footer a { color: #abb9b4; text-decoration: none; }
 @keyframes status-pulse { to { box-shadow: 0 0 0 7px rgba(50,128,108,.12); } }
 @keyframes gentle-in { from { opacity: 0; transform: translateY(8px); } }
 
 @media (max-width: 980px) {
   .exhibit-hero-grid, .ideas-grid { grid-template-columns: 1fr; gap: 48px; }.project-facts { max-width: 660px; }.status-callout { grid-template-columns: 1fr; gap: 8px; }.split-heading { grid-template-columns: 1fr; gap: 12px; }.knowledge-record dl { grid-template-columns: repeat(2, 1fr); }.boundary-panel { grid-template-columns: 1fr 1fr; }.approval-gate { grid-column: 1 / -1; grid-row: 2; }.timeline-tabs { grid-template-columns: repeat(4, 1fr); row-gap: 14px; border-bottom: 0; }.timeline-tabs button { border-bottom: 1px solid #bccbc5; }.project-visual-grid { grid-template-columns: 1fr; }.screenshot-card { max-width: 760px; }
   .irongate-threat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.learning-detail-grid { grid-template-columns: 1fr; }
+  .smartfix-service-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }.smartfix-service-flow .operations-step:nth-child(3)::after { content: none; }.smartfix-coordination-grid, .smartfix-context-path, .smartfix-operations-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 660px) {
   .exhibit-hero { padding: 38px 0 70px; }.breadcrumb { margin-bottom: 50px; }.exhibit-hero h1 { font-size: 5rem; }.exhibit-subtitle { font-size: 1.55rem; }.project-facts { padding: 22px; }.hero-system-map { overflow-x: auto; }.narrow-container { width: min(calc(100% - 28px), 1040px); }.knowledge-record { padding: 22px; }.knowledge-record dl, .findings-grid, .repair-comparison, .boundary-panel, .deeper-panel { grid-template-columns: 1fr; }.inspection-results { padding: 0 22px 22px; }.repair-simulator { margin: 0 22px 22px; padding: 20px; }.results-header, .repair-heading, .repair-actions { align-items: flex-start; flex-direction: column; gap: 10px; }.repair-actions button { width: 100%; }.approval-gate { grid-column: auto; grid-row: auto; }.timeline-tabs { display: flex; overflow-x: auto; padding-bottom: 16px; }.timeline-tabs button { min-width: 145px; }.deeper-panel { gap: 34px; padding: 27px; }.stage-explanation, .timeline-explanation { padding: 21px; }
   .operations-exhibit-page .exhibit-hero h1 { font-size: 3.65rem; }.exhibit-hero-actions { align-items: flex-start; flex-direction: column; gap: 16px; }.operations-flow, .ops-signal-grid { grid-template-columns: 1fr; }.operations-step { min-height: auto; }.operations-step strong { margin-top: 22px; }.operations-step:not(:last-child)::after { content: "↓"; top: auto; right: 50%; bottom: -28px; transform: translateX(50%); }.ops-signal-card { padding: 23px; }
   .irongate-exhibit-page .exhibit-hero h1 { font-size: 4rem; }.irongate-threat-grid { grid-template-columns: 1fr; }.irongate-threat-card, .learning-detail-card { padding: 23px; }
+  .smartfix-exhibit-page .exhibit-hero h1 { font-size: 4rem; }.smartfix-service-flow, .smartfix-visual-grid { grid-template-columns: 1fr; }.smartfix-service-flow .operations-step { min-height: auto; }.smartfix-service-flow .operations-step:nth-child(3)::after { content: "↓"; }.smartfix-service-flow .operations-step:not(:last-child)::after { top: auto; right: 50%; bottom: -28px; transform: translateX(50%); }.smartfix-coordination-grid article, .smartfix-context-path article { padding: 23px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -157,6 +157,13 @@ def irongate_page():
     return send_from_directory(BASE_DIR / "projects", "irongate.html")
 
 
+@app.get("/projects/smartfix")
+@app.get("/projects/smartfix.html")
+@app.get("/projects/nw-home-fix")
+def smartfix_page():
+    return send_from_directory(BASE_DIR / "projects", "smartfix.html")
+
+
 @app.get("/projects/ai-corral")
 @app.get("/projects/ai-corral.html")
 def ai_corral_page():
