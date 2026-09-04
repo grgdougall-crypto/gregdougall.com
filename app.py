@@ -156,6 +156,11 @@ def static_file(filename):
     return send_from_directory(BASE_DIR / "static", filename)
 
 
+@app.get("/favicon.ico")
+def favicon():
+    return "", 204
+
+
 @app.post("/api/contact")
 def contact_api():
     if _rate_limit_exceeded(request.remote_addr or "unknown"):
