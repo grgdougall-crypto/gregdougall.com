@@ -118,6 +118,7 @@ def send_contact_email(config, contact):
         headers={
             "Authorization": f'Bearer {config["api_key"]}',
             "Content-Type": "application/json",
+            "User-Agent": "gregdougall.com-contact/1.0",
         },
         method="POST",
     )
