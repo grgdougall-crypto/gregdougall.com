@@ -290,9 +290,8 @@ if (lightbox) {
 
 const corral = document.querySelector('[data-corral]');
 if (corral) {
-  const restraints = [...corral.querySelectorAll('input[name="restraint"]')];
-  const countOutput = corral.querySelector('.selection-count');
   const promptInput = corral.querySelector('#corral-prompt');
+  const promptCount = corral.querySelector('.prompt-count');
   const runButton = corral.querySelector('.run-corral');
   const formMessage = corral.querySelector('.form-message');
   const results = corral.querySelector('.corral-results');
@@ -304,67 +303,36 @@ if (corral) {
   const decisionTitle = corral.querySelector('.decision-title');
   const decisionCopy = corral.querySelector('.decision-copy');
   const score = corral.querySelector('.corral-score b');
-  const retryButton = corral.querySelector('.retry-corral');
   const released = corral.querySelector('.released-response');
   const pathStages = [...corral.querySelectorAll('[data-path]')];
-  const restraintNames = {
-    max20: 'Maximum 20 words', max40: 'Maximum 40 words', noQuestions: 'No questions',
-    noNumbers: 'No numbers', noE: 'No letter E', oneSentence: 'Exactly one sentence',
-    includeSystem: 'Must include “system”', uncertainty: 'Must admit uncertainty'
+  const guardrailLabels = {
+    schema_valid: 'Schema valid',
+    length_check: 'Length check',
+    category_check: 'Category check',
+    rule_check: 'Rule check'
   };
-  const validators = {
-    max20: (text) => countWords(text) <= 20,
-    max40: (text) => countWords(text) <= 40,
-    noQuestions: (text) => !text.includes('?'),
-    noNumbers: (text) => !/[0-9]/.test(text),
-    noE: (text) => !/e/i.test(text),
-    oneSentence: (text) => ((text.match(/[.!?]+(?=\s|$)/g) || []).length === 1),
-    includeSystem: (text) => /\bsystem\b/i.test(text),
-    uncertainty: (text) => /\b(i['’]m not sure|i am not sure|uncertain|may|might)\b/i.test(text)
-  };
-  let attemptNumber = 0;
 
-  function countWords(text) {
-    return (text.trim().match(/\b[\w’'-]+\b/g) || []).length;
+  function updatePromptState() {
+    const length = promptInput.value.length;
+    promptCount.textContent = `${length} / 600 characters`;
+    runButton.disabled = !promptInput.value.trim() || length > 600;
+    formMessage.classList.remove('is-error');
+    formMessage.textContent = runButton.disabled ? 'Enter a prompt to begin.' : 'The corral is ready.';
   }
-
-  function selectedRules() {
-    return restraints.filter((item) => item.checked).map((item) => item.value);
-  }
-
-  function updateSelection() {
-    const count = selectedRules().length;
-    countOutput.textContent = `${count} selected`;
-    runButton.disabled = count < 2 || count > 4;
-    formMessage.classList.toggle('is-error', count > 4);
-    formMessage.textContent = count < 2 ? 'Choose at least two restraints to begin.' : count > 4 ? 'Choose no more than four restraints.' : 'The corral is ready.';
-  }
-
-  restraints.forEach((input) => {
-    input.addEventListener('change', () => {
-      if (input.checked && input.dataset.group) {
-        restraints.filter((item) => item !== input && item.dataset.group === input.dataset.group).forEach((item) => { item.checked = false; });
-      }
-      updateSelection();
-    });
-  });
 
   corral.querySelectorAll('.sample-prompts button').forEach((button) => {
     button.addEventListener('click', () => {
       promptInput.value = button.textContent;
       promptInput.focus();
+      updatePromptState();
     });
   });
 
-  function validate(text) {
-    return selectedRules().map((rule) => ({ rule, passed: validators[rule](text) }));
-  }
-
-  function displayValidation(checks) {
-    validationList.replaceChildren(...checks.map((check) => {
+  function displayValidation(guardrails) {
+    validationList.replaceChildren(...Object.entries(guardrailLabels).map(([key, label]) => {
       const item = document.createElement('li');
-      item.className = check.passed ? 'pass' : 'fail';
-      item.textContent = restraintNames[check.rule];
+      item.className = guardrails[key] ? 'pass' : 'fail';
+      item.textContent = `${label}: ${guardrails[key] ? 'PASS' : 'FAIL'}`;
       return item;
     }));
   }
@@ -376,76 +344,69 @@ if (corral) {
     });
   }
 
-  function simulatedAttempt(isRetry) {
-    if (isRetry) return selectedRules().includes('noE') ? 'I may fail, so strict guards limit risky output.' : 'This system may fail, so strict guards limit risky output.';
-    const prompt = promptInput.value.toLowerCase();
-    if (prompt.includes('pineapple')) return 'A flexible system may accept pineapple on pizza, but taste remains uncertain for every person.';
-    if (prompt.includes('internet')) return 'The internet is a connected system that may move information quickly while amplifying both insight and error.';
-    if (prompt.includes('artificial intelligence')) return 'Artificial intelligence is a system that may find patterns, generate output, and still make confident mistakes.';
-    return 'A reliable system checks every AI answer before release, because model output may break important rules.';
-  }
-
-  function finishAttempt(text, isRetry) {
-    const checks = validate(text);
-    const failures = checks.filter((check) => !check.passed);
-    attemptOutput.textContent = text;
-    attemptLabel.textContent = `Attempt ${attemptNumber} of 2`;
-    displayValidation(checks);
+  function showResult(payload) {
+    const result = payload.result;
+    attemptOutput.textContent = result.answer;
+    attemptLabel.textContent = `Retry used: ${payload.retry_used ? 'YES' : 'NO'}`;
+    displayValidation(payload.guardrails);
     results.classList.add('is-visible');
-    decisionPanel.classList.toggle('is-fail', failures.length > 0);
-    decisionPanel.classList.toggle('is-pass', failures.length === 0);
-    released.classList.toggle('is-visible', failures.length === 0);
-    retryButton.hidden = failures.length === 0 || attemptNumber >= 2;
+    decisionPanel.classList.toggle('is-fail', result.category === 'refused');
+    decisionPanel.classList.toggle('is-pass', result.category !== 'refused');
+    released.classList.add('is-visible');
     setPath(3, true);
-
-    if (failures.length) {
-      decisionKicker.textContent = 'AI bucked';
-      decisionTitle.textContent = 'Response withheld';
-      decisionCopy.textContent = `${failures.length} restraint${failures.length === 1 ? '' : 's'} violated. The simulated attempt was not released.`;
-      score.textContent = '1';
-      released.querySelector('p').textContent = '';
-    } else {
-      decisionKicker.textContent = isRetry ? 'Control restored' : 'Guardrails held';
-      decisionTitle.textContent = 'Response released';
-      decisionCopy.textContent = 'All selected restraints passed deterministic validation.';
-      score.textContent = '1';
-      released.querySelector('p').textContent = text;
-    }
+    decisionKicker.textContent = 'Final status';
+    decisionTitle.textContent = result.category.toUpperCase();
+    decisionCopy.textContent = result.category === 'accepted'
+      ? 'The response passed every server-side check.'
+      : result.category === 'redirected'
+        ? 'The model narrowed or redirected the response within the Corral rules.'
+        : 'The model refused within the Corral rules.';
+    score.textContent = result.confidence.toUpperCase();
+    released.querySelector('p').textContent = result.rule_followed;
   }
 
-  function runAttempt(isRetry = false) {
-    attemptNumber = isRetry ? 2 : 1;
-    const text = simulatedAttempt(isRetry);
+  function showError(message) {
+    formMessage.classList.add('is-error');
+    formMessage.textContent = message;
+    results.classList.remove('is-visible');
+    released.classList.remove('is-visible');
+    setPath(0);
+  }
+
+  async function runAttempt() {
+    const prompt = promptInput.value.trim();
+    if (!prompt || prompt.length > 600) return;
     results.classList.remove('is-visible');
     released.classList.remove('is-visible');
     pathStages.forEach((stage) => stage.classList.remove('is-active', 'is-complete'));
-    formMessage.textContent = isRetry ? 'Reining it back in…' : 'Prompt sent…';
-    const steps = [0, 1, 2];
-    let index = 0;
-    setPath(steps[index]);
-
-    const advance = () => {
-      index += 1;
-      if (index < steps.length) {
-        setPath(steps[index]);
-        formMessage.textContent = index === 1 ? 'Simulated attempt generated…' : 'Constraints checked.';
-        window.setTimeout(advance, 320);
-      } else {
-        finishAttempt(text, isRetry);
-        formMessage.textContent = 'Validation complete.';
-      }
-    };
-    reducedMotion.matches ? finishAttempt(text, isRetry) : window.setTimeout(advance, 320);
+    formMessage.classList.remove('is-error');
+    formMessage.textContent = 'Prompt sent to the fenced model…';
+    runButton.disabled = true;
+    setPath(1);
+    try {
+      const response = await fetch('/api/ai-corral', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok || !payload.ok) throw new Error(payload.error || 'AI Corral could not complete this request.');
+      setPath(2);
+      showResult(payload);
+      formMessage.textContent = 'Server validation complete.';
+    } catch (error) {
+      showError(error instanceof Error ? error.message : 'AI Corral could not complete this request.');
+    } finally {
+      runButton.disabled = !promptInput.value.trim() || promptInput.value.length > 600;
+    }
   }
 
   corral.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (selectedRules().length < 2 || selectedRules().length > 4) return;
-    if (!promptInput.value.trim()) promptInput.value = promptInput.placeholder;
-    runAttempt(false);
+    runAttempt();
   });
-  retryButton.addEventListener('click', () => runAttempt(true));
-  updateSelection();
+  promptInput.addEventListener('input', updatePromptState);
+  updatePromptState();
 }
 
 const contactForm = document.querySelector('[data-contact-form]');

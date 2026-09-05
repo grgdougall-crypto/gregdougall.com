@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AI Corral is a frontend simulation showing how deterministic validation can constrain probabilistic model output.">
+  <meta name="description" content="AI Corral is a constrained model experiment showing how server-side rules validate structured AI output.">
   <title>AI Corral — Greg Dougall</title>
   <link rel="stylesheet" href="../static/css/styles.css">
 </head>
@@ -24,58 +24,55 @@
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">GregDougall.com</a><span aria-hidden="true">/</span><a href="/#projects">Projects</a><span aria-hidden="true">/</span><span aria-current="page">AI Corral</span></nav>
         <div class="corral-hero-grid">
           <div>
-            <span class="corral-kicker">Frontend simulation</span>
+            <span class="corral-kicker">Constrained model experiment</span>
             <h1>AI Corral</h1>
             <p class="corral-subtitle">Can you make the AI buck?</p>
             <p class="corral-lede">AI models are probabilistic. The systems around them do not have to be.</p>
-            <p>AI Corral demonstrates how deterministic rules can validate, reject, and retry model output before it is allowed through.</p>
+            <p>AI Corral is a constrained model experiment. Your prompt is sent to a real AI model, but the response must pass a defined schema and server-side checks before it is shown.</p>
             <a class="button corral-cta" href="#challenge">Enter the Corral <span aria-hidden="true">↓</span></a>
           </div>
-          <aside class="corral-notice"><span>No live model is connected yet.</span><p>The responses are simulated, but the validation rules are real JavaScript.</p><div class="fence-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div></aside>
+          <aside class="corral-notice"><span>Real model. Server-side fence.</span><p>No browsing. No tools. No autonomous actions. Each request stands alone; this site does not save prompts or responses.</p><div class="fence-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div></aside>
         </div>
       </div>
     </section>
 
     <section class="section corral-challenge" id="challenge">
       <div class="container">
-        <div class="corral-heading"><p class="eyebrow">Interactive experiment</p><h2>Set the restraints</h2><p>Choose two to four rules, give the simulated model a prompt, and watch deterministic checks decide whether its response gets through.</p></div>
+        <div class="corral-heading"><p class="eyebrow">Interactive experiment</p><h2>Watch a real model operate inside a fence</h2><p>The model can answer briefly, redirect, or refuse. Only output that passes the fixed server-side contract is displayed.</p></div>
 
         <form class="corral-console" data-corral novalidate>
           <div class="corral-step restraints-step">
-            <div class="step-heading"><span>01</span><div><h3>Choose restraints</h3><p>Select 2–4. Logically conflicting rules replace one another.</p></div><output class="selection-count" aria-live="polite">0 selected</output></div>
-            <fieldset class="restraint-grid"><legend class="sr-only">Response restraints</legend>
-              <label><input type="checkbox" name="restraint" value="max20" data-group="word-limit"><span>Maximum 20 words</span></label>
-              <label><input type="checkbox" name="restraint" value="max40" data-group="word-limit"><span>Maximum 40 words</span></label>
-              <label><input type="checkbox" name="restraint" value="noQuestions"><span>No questions</span></label>
-              <label><input type="checkbox" name="restraint" value="noNumbers"><span>No numbers</span></label>
-              <label><input type="checkbox" name="restraint" value="noE" data-group="letter-e-conflict"><span>No letter E</span></label>
-              <label><input type="checkbox" name="restraint" value="oneSentence"><span>Exactly one sentence</span></label>
-              <label><input type="checkbox" name="restraint" value="includeSystem" data-group="letter-e-conflict"><span>Must include “system”</span></label>
-              <label><input type="checkbox" name="restraint" value="uncertainty"><span>Must admit uncertainty</span></label>
-            </fieldset>
+            <div class="step-heading"><span>01</span><div><h3>Fixed boundaries</h3><p>These limits are enforced for every request.</p></div><output class="selection-count">Always on</output></div>
+            <ul class="corral-boundary-grid" aria-label="AI Corral boundaries">
+              <li>Strict response schema</li>
+              <li>Short validated output</li>
+              <li>No browsing or tools</li>
+              <li>No external actions</li>
+            </ul>
           </div>
 
           <div class="corral-step prompt-step">
-            <div class="step-heading"><span>02</span><div><h3>Enter a prompt</h3><p>The prompt steers which simulated response is selected locally.</p></div></div>
+            <div class="step-heading"><span>02</span><div><h3>Enter a prompt</h3><p>One prompt is sent without conversation history.</p></div></div>
             <label class="prompt-label" for="corral-prompt">Give the AI something to answer</label>
-            <textarea id="corral-prompt" rows="4" placeholder="Explain why good software should not blindly trust AI output."></textarea>
+            <textarea id="corral-prompt" rows="4" maxlength="600" aria-describedby="corral-prompt-count" placeholder="Explain why good software should not blindly trust AI output."></textarea>
+            <small class="prompt-count" id="corral-prompt-count">0 / 600 characters</small>
             <div class="sample-prompts" aria-label="Sample prompts"><span>Try one:</span><button type="button">Explain artificial intelligence.</button><button type="button">Convince me that pineapple belongs on pizza.</button><button type="button">Describe the internet in one sentence.</button><button type="button">Explain why guardrails matter.</button></div>
           </div>
 
           <div class="corral-step run-step">
-            <div class="step-heading"><span>03</span><div><h3>Run the Corral</h3><p>No request leaves this page.</p></div></div>
-            <div class="control-path" aria-label="Validation path"><span data-path="prompt">Prompt</span><i aria-hidden="true">→</i><span data-path="model">Model</span><i aria-hidden="true">→</i><span data-path="validators">Validators</span><i aria-hidden="true">→</i><span data-path="decision">Reject / Release</span></div>
-            <p class="form-message" aria-live="polite">Choose at least two restraints to begin.</p>
+            <div class="step-heading"><span>03</span><div><h3>Run the Corral</h3><p>The server calls the model, validates its structured result, and releases only approved fields.</p></div></div>
+            <div class="control-path" aria-label="Validation path"><span data-path="prompt">Prompt</span><i aria-hidden="true">→</i><span data-path="model">Model</span><i aria-hidden="true">→</i><span data-path="validators">Server checks</span><i aria-hidden="true">→</i><span data-path="decision">Final status</span></div>
+            <p class="form-message" aria-live="polite">Enter a prompt to begin.</p>
             <button class="button run-corral" type="submit" disabled>Run the Corral</button>
           </div>
 
           <section class="corral-results" aria-label="Corral result" aria-live="polite">
-            <div class="attempt-panel"><span>Simulated model attempt</span><blockquote class="attempt-output"></blockquote><small>Locally selected sample text — not a live AI response.</small></div>
-            <div class="validation-panel"><div class="validation-heading"><span>Constraint check</span><span class="attempt-label">Attempt 1 of 2</span></div><ul class="validation-list"></ul></div>
-            <div class="decision-panel"><div><span class="decision-kicker"></span><h3 class="decision-title"></h3><p class="decision-copy"></p></div><div class="corral-score"><span>Score</span><strong>Guardrails <b>0</b> · Unchecked output 0</strong></div><button class="button retry-corral" type="button">Rein It Back In</button></div>
-            <div class="released-response"><span>Approved simulated response</span><p></p></div>
+            <div class="attempt-panel"><span>Model response</span><blockquote class="attempt-output"></blockquote><small>Validated structured output only.</small></div>
+            <div class="validation-panel"><div class="validation-heading"><span>Guardrails</span><span class="attempt-label">Retry used: NO</span></div><ul class="validation-list"></ul></div>
+            <div class="decision-panel"><div><span class="decision-kicker">Final status</span><h3 class="decision-title"></h3><p class="decision-copy"></p></div><div class="corral-score"><span>Confidence</span><strong><b>—</b></strong></div></div>
+            <div class="released-response"><span>Rule followed</span><p></p></div>
           </section>
-          <noscript><p class="noscript-note">This exhibit needs JavaScript to run the validator challenge. The explanation below describes the same control flow.</p></noscript>
+          <noscript><p class="noscript-note">This experiment needs JavaScript to send a prompt and display the server-validated result.</p></noscript>
         </form>
       </div>
     </section>
@@ -93,7 +90,7 @@
     </section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-bottom"><span>AI Corral / Frontend simulation</span><a href="/#projects">Back to Projects</a></div></footer>
+  <footer class="site-footer"><div class="container footer-bottom"><span>AI Corral / Constrained model experiment</span><a href="/#projects">Back to Projects</a></div></footer>
   <script src="../static/js/main.js" defer></script>
 </body>
 </html>
