@@ -156,12 +156,12 @@ def _validate_corral_prompt(payload):
     prompt = payload.get("prompt")
     if not isinstance(prompt, str):
         return None, "Prompt must be text."
-    prompt = prompt.strip()
-    if not prompt:
+    normalized_prompt = prompt.strip()
+    if not normalized_prompt:
         return None, "Enter a prompt before running the Corral."
-    if len(prompt) > AI_CORRAL_MAX_PROMPT_LENGTH:
+    if len(normalized_prompt) > AI_CORRAL_MAX_PROMPT_LENGTH:
         return None, f"Prompt must be {AI_CORRAL_MAX_PROMPT_LENGTH} characters or fewer."
-    return prompt, None
+    return normalized_prompt, None
 
 
 def _validate_corral_result(raw_output):
@@ -326,14 +326,14 @@ def favicon():
 
 @app.post("/api/ai-corral")
 def ai_corral_api():
-    if _rate_limit_exceeded(f"ai-corral:{_client_identity()}"):
-        return _corral_error("The Corral has reached its short-term request limit. Please try again later.", 429)
     if request.mimetype != "application/json":
         return _corral_error("Send the prompt as JSON.", 415)
 
     prompt, validation_error = _validate_corral_prompt(request.get_json(silent=True))
     if validation_error:
         return _corral_error(validation_error, 400)
+    if _rate_limit_exceeded(f"ai-corral:{_client_identity()}"):
+        return _corral_error("The Corral has reached its short-term request limit. Please try again later.", 429)
 
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:

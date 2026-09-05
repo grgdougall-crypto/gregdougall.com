@@ -305,6 +305,7 @@ if (corral) {
   const score = corral.querySelector('.corral-score b');
   const released = corral.querySelector('.released-response');
   const pathStages = [...corral.querySelectorAll('[data-path]')];
+  const promptLimit = Number(promptInput.dataset.promptLimit) || 600;
   const guardrailLabels = {
     schema_valid: 'Schema valid',
     length_check: 'Length check',
@@ -312,12 +313,23 @@ if (corral) {
     rule_check: 'Rule check'
   };
 
+  function getPromptState() {
+    const prompt = promptInput.value.trim();
+    return { prompt, length: [...prompt].length };
+  }
+
   function updatePromptState() {
-    const length = promptInput.value.length;
-    promptCount.textContent = `${length} / 600 characters`;
-    runButton.disabled = !promptInput.value.trim() || length > 600;
-    formMessage.classList.remove('is-error');
-    formMessage.textContent = runButton.disabled ? 'Enter a prompt to begin.' : 'The corral is ready.';
+    const state = getPromptState();
+    const isOverLimit = state.length > promptLimit;
+    promptCount.textContent = `${state.length} / ${promptLimit} characters`;
+    runButton.disabled = !state.prompt || isOverLimit;
+    formMessage.classList.toggle('is-error', isOverLimit);
+    formMessage.textContent = isOverLimit
+      ? `Prompt must be ${promptLimit} characters or fewer.`
+      : state.prompt
+        ? 'The corral is ready.'
+        : 'Enter a prompt to begin.';
+    return state;
   }
 
   corral.querySelectorAll('.sample-prompts button').forEach((button) => {
@@ -374,8 +386,8 @@ if (corral) {
   }
 
   async function runAttempt() {
-    const prompt = promptInput.value.trim();
-    if (!prompt || prompt.length > 600) return;
+    const { prompt, length } = updatePromptState();
+    if (!prompt || length > promptLimit) return;
     results.classList.remove('is-visible');
     released.classList.remove('is-visible');
     pathStages.forEach((stage) => stage.classList.remove('is-active', 'is-complete'));
@@ -397,7 +409,7 @@ if (corral) {
     } catch (error) {
       showError(error instanceof Error ? error.message : 'AI Corral could not complete this request.');
     } finally {
-      runButton.disabled = !promptInput.value.trim() || promptInput.value.length > 600;
+      updatePromptState();
     }
   }
 

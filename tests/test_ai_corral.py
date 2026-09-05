@@ -90,9 +90,34 @@ class AICorralTests(unittest.TestCase):
         response = self.client.post("/api/ai-corral", json={"prompt": "   "})
         self.assertEqual(response.status_code, 400)
 
-    def test_oversized_prompt_is_rejected(self):
-        response = self.client.post("/api/ai-corral", json={"prompt": "x" * 601})
+    def test_exactly_600_characters_is_accepted(self):
+        response, fake = self.post_with_outputs([structured_result()], prompt="x" * 600)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(fake.responses.calls), 1)
+        self.assertEqual(fake.responses.calls[0]["input"], "x" * 600)
+
+    def test_oversized_prompt_is_rejected_before_any_openai_call(self):
+        with patch.object(portfolio, "create_ai_corral_client") as create_client:
+            response = self.client.post("/api/ai-corral", json={"prompt": "x" * 601})
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(
+            response.get_json(),
+            {"ok": False, "error": "Prompt must be 600 characters or fewer."},
+        )
+        create_client.assert_not_called()
+        self.assertNotIn("server-only-test-key", response.get_data(as_text=True))
+        self.assertNotIn("model", response.get_data(as_text=True).lower())
+
+    def test_prompt_length_uses_trimmed_unicode_code_points(self):
+        prompt = "  " + ("😀" * 600) + "  "
+        response, fake = self.post_with_outputs([structured_result()], prompt=prompt)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(fake.responses.calls[0]["input"], "😀" * 600)
+
+        with patch.object(portfolio, "create_ai_corral_client") as create_client:
+            response = self.client.post("/api/ai-corral", json={"prompt": " " + ("😀" * 601) + " "})
+        self.assertEqual(response.status_code, 400)
+        create_client.assert_not_called()
 
     def test_non_string_prompt_is_rejected(self):
         response = self.client.post("/api/ai-corral", json={"prompt": 42})
@@ -195,24 +220,34 @@ class AICorralTests(unittest.TestCase):
         self.assertEqual(response.status_code, 429)
         self.assertEqual(request_model.call_count, 1)
 
-    def test_in_memory_request_throttle_is_conservative(self):
-        for _ in range(portfolio.RATE_LIMIT_ATTEMPTS):
+    def test_invalid_input_does_not_consume_throttle_quota(self):
+        for _ in range(portfolio.RATE_LIMIT_ATTEMPTS + 1):
             response = self.client.post("/api/ai-corral", json={"prompt": ""})
             self.assertEqual(response.status_code, 400)
-        response = self.client.post("/api/ai-corral", json={"prompt": "Hello"})
+        self.assertNotIn("ai-corral:127.0.0.1", portfolio._rate_buckets)
+
+    def test_in_memory_request_throttle_is_conservative(self):
+        fake = FakeOpenAIClient([structured_result()] * portfolio.RATE_LIMIT_ATTEMPTS)
+        with patch.object(portfolio, "create_ai_corral_client", return_value=fake):
+            for _ in range(portfolio.RATE_LIMIT_ATTEMPTS):
+                response = self.client.post("/api/ai-corral", json={"prompt": "Hello"})
+                self.assertEqual(response.status_code, 200)
+            response = self.client.post("/api/ai-corral", json={"prompt": "Hello"})
         self.assertEqual(response.status_code, 429)
 
     def test_railway_client_ip_header_keeps_visitors_separate(self):
         first_visitor = {"X-Real-IP": "203.0.113.10"}
-        for _ in range(portfolio.RATE_LIMIT_ATTEMPTS):
-            response = self.client.post("/api/ai-corral", json={"prompt": ""}, headers=first_visitor)
-            self.assertEqual(response.status_code, 400)
-        response = self.client.post(
-            "/api/ai-corral",
-            json={"prompt": ""},
-            headers={"X-Real-IP": "203.0.113.11"},
-        )
-        self.assertEqual(response.status_code, 400)
+        fake = FakeOpenAIClient([structured_result()] * (portfolio.RATE_LIMIT_ATTEMPTS + 1))
+        with patch.object(portfolio, "create_ai_corral_client", return_value=fake):
+            for _ in range(portfolio.RATE_LIMIT_ATTEMPTS):
+                response = self.client.post("/api/ai-corral", json={"prompt": "Hello"}, headers=first_visitor)
+                self.assertEqual(response.status_code, 200)
+            response = self.client.post(
+                "/api/ai-corral",
+                json={"prompt": "Hello"},
+                headers={"X-Real-IP": "203.0.113.11"},
+            )
+        self.assertEqual(response.status_code, 200)
 
     def test_throttle_prunes_stale_identity_buckets(self):
         portfolio._rate_buckets["stale-client"] = deque([1.0])
@@ -243,6 +278,13 @@ class AICorralTests(unittest.TestCase):
                 response = self.client.get(path)
                 self.assertEqual(response.status_code, 200)
                 response.close()
+
+    def test_ai_corral_page_declares_trimmed_prompt_limit_for_javascript(self):
+        response = self.client.get("/projects/ai-corral")
+        body = response.get_data(as_text=True)
+        self.assertIn('data-prompt-limit="600"', body)
+        self.assertNotIn('maxlength="600"', body)
+        response.close()
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ A small Flask site for gregdougall.com. It presents Greg's practical work and in
 
 ## AI Corral
 
-`POST /api/ai-corral` accepts one JSON prompt of up to 600 characters and sends it to the OpenAI Responses API. The model must return a strict structured result containing an answer, category, confidence, and the rule followed. The server validates every field and length before returning approved data to the browser. A structurally invalid result receives at most one correction attempt; provider failures are not retried.
+`POST /api/ai-corral` accepts one JSON prompt whose trimmed value is up to 600 Unicode code points and sends it to the OpenAI Responses API. The browser counter uses the same trimmed-length rule, while the server remains authoritative and rejects oversized input before throttling or any model call. The model must return a strict structured result containing an answer, category, confidence, and the rule followed. The server validates every field and length before returning approved data to the browser. A structurally invalid result receives at most one correction attempt; provider failures are not retried.
 
 AI Corral uses no tools, browsing, files, external actions, conversation history, background work, or persistence. It reuses the site's conservative in-memory request throttle, and prompts and responses are not stored by this application.
 
