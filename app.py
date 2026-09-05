@@ -277,6 +277,12 @@ def contact_page():
     return send_from_directory(BASE_DIR, "contact.html")
 
 
+@app.get("/resume")
+@app.get("/resume.html")
+def resume_page():
+    return send_from_directory(BASE_DIR, "resume.html")
+
+
 @app.get("/projects/gnojo")
 @app.get("/projects/gnojo.html")
 def gnojo_page():

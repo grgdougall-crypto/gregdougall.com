@@ -273,6 +273,7 @@ class AICorralTests(unittest.TestCase):
             "/projects/irongate",
             "/projects/smartfix",
             "/projects/cyberslooth",
+            "/resume",
         ):
             with self.subTest(path=path):
                 response = self.client.get(path)
