@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ note.subtitle }}">
+  <title>{{ note.title }} — Lab Notes — Greg Dougall</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="lab-note-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header exhibit-header">
+    <div class="container nav-shell">
+      <a class="wordmark" href="/" aria-label="Greg Dougall, home">Greg Dougall</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation"><span class="sr-only">Toggle navigation</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav id="site-navigation" class="site-nav" aria-label="Primary navigation"><a href="/#projects">Projects</a><a href="/#lab-notes">Lab Notes</a><a href="/resume">Resume</a><a href="/contact">Contact</a></nav>
+      <a class="button button-small nav-cta" href="/#lab-notes">Back to Lab Notes</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <article>
+      <header class="lab-note-hero">
+        <div class="container lab-note-hero-grid">
+          <div class="lab-note-heading">
+            <p class="eyebrow">Lab Notes / Technical field journal</p>
+            <h1>{{ note.title }}</h1>
+            <p>{{ note.subtitle }}</p>
+          </div>
+          <dl class="lab-note-meta" aria-label="Lab note details">
+            <div><dt>Date</dt><dd><time datetime="{{ note.date_iso }}">{{ note.date }}</time></dd></div>
+            <div><dt>Topic</dt><dd>{{ note.category }}</dd></div>
+            <div><dt>Tools / environment</dt><dd>{{ note.tools }}</dd></div>
+            <div><dt>Related project</dt><dd><a href="{{ note.project_url }}">{{ note.project_name }} <span aria-hidden="true">→</span></a></dd></div>
+          </dl>
+        </div>
+      </header>
+
+      <div class="container lab-note-content">
+        <div class="lab-note-body">
+          {% for section in note.sections %}
+          <section class="lab-note-section">
+            <p class="lab-note-section-number">{{ "%02d" | format(loop.index) }}</p>
+            <h2>{{ section.heading }}</h2>
+            {% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+          </section>
+          {% endfor %}
+
+          <figure class="lab-note-evidence{% if note.evidence.type == 'summary' %} lab-note-evidence-summary{% endif %}">
+            <div class="lab-note-evidence-header"><span>Evidence</span><strong>{{ note.evidence.label }}</strong></div>
+            {% if note.evidence.type == "image" %}
+            <img src="{{ note.evidence.src }}" alt="{{ note.evidence.alt }}" loading="lazy">
+            {% else %}
+            <dl class="run-summary">
+              {% for label, value in note.evidence["items"] %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}
+            </dl>
+            {% endif %}
+            <figcaption>{{ note.evidence.caption }}</figcaption>
+          </figure>
+
+          <section class="lab-note-takeaway">
+            <p class="eyebrow">Takeaway</p>
+            <h2>What I carried forward</h2>
+            <p>{{ note.takeaway }}</p>
+          </section>
+        </div>
+      </div>
+
+      <footer class="lab-note-actions">
+        <div class="container">
+          <div><p class="eyebrow">Continue exploring</p><h2>{{ note.project_name }}</h2><p>See the project context, implementation, and supporting visuals.</p></div>
+          <div>
+            <a class="button" href="{{ note.project_url }}">Explore {{ note.project_name }} <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="/#lab-notes">Back to Lab Notes <span aria-hidden="true">←</span></a>
+          </div>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-bottom"><span>Lab Notes / Technical field journal</span><a href="/">GregDougall.com</a></div></footer>
+  <script src="/static/js/main.js" defer></script>
+</body>
+</html>

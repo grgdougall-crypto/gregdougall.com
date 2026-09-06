@@ -10,7 +10,7 @@ from urllib import error as url_error
 from urllib import request as url_request
 
 import openai
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, abort, jsonify, render_template, request, send_from_directory
 from openai import OpenAI
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -53,6 +53,156 @@ ALLOWED_REASONS = {
     "Other",
 }
 EMAIL_PATTERN = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+
+LAB_NOTES = {
+    "bounded-autonomous-research": {
+        "title": "Running My First Bounded Autonomous Research Job",
+        "subtitle": "Validating a scheduled research run that could explore, publish, and stop on its own.",
+        "date": "September 5, 2026",
+        "date_iso": "2026-09-05",
+        "category": "Autonomous systems",
+        "tools": "Python, Flask, Railway, PostgreSQL, OpenAI Responses API",
+        "project_name": "CyberSlooth",
+        "project_url": "/projects/cyberslooth",
+        "sections": [
+            {
+                "heading": "Goal",
+                "paragraphs": [
+                    "Validate that CyberSlooth could start on schedule, complete one bounded research expedition, preserve provenance, and publish a Daily Discovery without human intervention."
+                ],
+            },
+            {
+                "heading": "Setup",
+                "paragraphs": [
+                    "Railway launched the short-lived process with python autonomous_run.py. A deterministic daily guard controlled whether the run could proceed; safe public-web retrieval, bounded follow-up exploration, structured AI analysis, PostgreSQL archival, and Daily Discovery publication made up the expedition path."
+                ],
+            },
+            {
+                "heading": "What happened",
+                "paragraphs": [
+                    "The scheduled run completed in about one minute. It retrieved the Project Gutenberg starting page and two follow-ups—About | Project Gutenberg and Reading Options | Project Gutenberg—then used the complete six-call model budget.",
+                    "The synthesis added context about Project Gutenberg's mission, history, access model, and reading options. It preserved uncertainties and source provenance rather than turning incomplete evidence into certainty. Project Gutenberg was selected for publication with a score of 19 / 25, high confidence, and a KEEP archive recommendation.",
+                ],
+            },
+            {
+                "heading": "Result",
+                "paragraphs": [
+                    "CyberSlooth published one Daily Discovery and exited successfully. No failure stage was recorded."
+                ],
+            },
+        ],
+        "evidence": {
+            "type": "summary",
+            "label": "Scheduled run record",
+            "caption": "The saved run state shows that the expedition used its page and model budgets, published once, and stopped cleanly.",
+            "items": [
+                ("Run ID", "AR-20260905-7A34AD"),
+                ("Started", "13:02 UTC"),
+                ("Completed", "13:03 UTC"),
+                ("Outcome", "COMPLETED"),
+                ("Pages retrieved", "3"),
+                ("Model calls", "6 / 6"),
+                ("Published", "YES"),
+                ("Failure stage", "NONE"),
+            ],
+        },
+        "takeaway": "The meaningful result was not just that a scheduled task ran. CyberSlooth used a fixed research budget, followed limited leads, preserved provenance, produced one synthesis, published one result, and stopped at its configured boundaries. That is bounded autonomy, not open-ended agent behavior.",
+    },
+    "governed-ai-repair": {
+        "title": "Governed AI Repair",
+        "subtitle": "Designing useful AI-assisted repair without silent changes to operational knowledge.",
+        "date": "February 6, 2025",
+        "date_iso": "2025-02-06",
+        "category": "AI governance",
+        "tools": "Python, Flask, Curator, Fix Wizard",
+        "project_name": "Gnojo",
+        "project_url": "/projects/gnojo",
+        "sections": [
+            {
+                "heading": "Goal",
+                "paragraphs": [
+                    "Explore how AI-assisted repair could help maintain operational knowledge without allowing a model to silently change it."
+                ],
+            },
+            {
+                "heading": "Setup",
+                "paragraphs": [
+                    "Gnojo's governed repair pattern begins with an integrity finding and the source's current state. A proposed repair can then be explained, previewed, validated, reviewed, and recorded with its provenance before approval."
+                ],
+            },
+            {
+                "heading": "What I tried",
+                "paragraphs": [
+                    "I separated assistance from authority. Curator can inspect a problem, explain it, propose a repair, and preview the effect. It cannot publish independently, approve its own repair, override the reviewer, or hide provenance."
+                ],
+            },
+            {
+                "heading": "The design challenge",
+                "paragraphs": [
+                    "Generating a correction was only part of the problem. A trustworthy workflow also needed to show what changed, why it changed, who reviewed it, whether it passed validation, and where recovery boundaries remained."
+                ],
+            },
+            {
+                "heading": "Result",
+                "paragraphs": [
+                    "That approach led to governed repair workflows and the Fix Wizard: findings become guided repair paths, proposed changes can be inspected before acceptance, and consequential decisions stay with a human reviewer."
+                ],
+            },
+        ],
+        "evidence": {
+            "type": "image",
+            "src": "/static/Images/gnojo/gnojo-governed-review.jpeg",
+            "alt": "Gnojo governed review screen holding a repair for a human decision",
+            "label": "Governed review state",
+            "caption": "The repair remains a proposal: the screen exposes evidence and a recommended next step while requiring a reviewer to decide what happens next.",
+        },
+        "takeaway": "AI can be useful in repair workflows without becoming the authority that decides whether a consequential change becomes real.",
+    },
+    "service-workflow-relationships": {
+        "title": "Designing Relationships Around a Service Workflow",
+        "subtitle": "Using relational thinking to keep a service job connected from intake through follow-up.",
+        "date": "January 24, 2025",
+        "date_iso": "2025-01-24",
+        "category": "Database design",
+        "tools": "Python, Flask, SQLAlchemy, PostgreSQL",
+        "project_name": "SmartFix",
+        "project_url": "/projects/smartfix",
+        "sections": [
+            {
+                "heading": "Goal",
+                "paragraphs": [
+                    "Model the relationships needed to carry a service job through requests, estimates, scheduling, invoices, and follow-up tasks without losing the context that connects them."
+                ],
+            },
+            {
+                "heading": "What I was working through",
+                "paragraphs": [
+                    "A customer request should not turn into disconnected data as it moves through Request → Estimate → Schedule → Invoice → Follow-Up. SmartFix needed persistent relationships so later stages could still refer to the request and decisions that started the work. Scheduling state stays on the request while estimates, invoices, and follow-up tasks keep their own responsibilities."
+                ],
+            },
+            {
+                "heading": "What I learned",
+                "paragraphs": [
+                    "Useful data models are shaped by the workflow, not just the fields on a form. Each entity needs a distinct responsibility, but its relationships matter just as much. Keeping shared context connected—and avoiding unnecessary copies of workflow state—makes application behavior easier to reason about and maintain."
+                ],
+            },
+            {
+                "heading": "Result",
+                "paragraphs": [
+                    "In SmartFix, request context can continue into estimating, scheduling, invoicing, and follow-up work. The interface can show a connected service history because the underlying records remain related instead of becoming isolated documents."
+                ],
+            },
+        ],
+        "evidence": {
+            "type": "image",
+            "src": "/static/Images/smartfix/09-estimate-to-invoice.jpeg",
+            "alt": "SmartFix finalized invoice linked to request 21 and estimate EST-2026-0008",
+            "label": "Estimate-to-invoice continuity",
+            "caption": "The finalized invoice identifies both its originating request and accepted estimate, making the relationship between workflow stages visible in the interface.",
+        },
+        "takeaway": "Relational design is not background plumbing. It determines whether a multi-stage workflow behaves like one coherent system or a collection of disconnected records.",
+    },
+}
 
 app = Flask(__name__, static_folder=None)
 app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BYTES
@@ -281,6 +431,14 @@ def contact_page():
 @app.get("/resume.html")
 def resume_page():
     return send_from_directory(BASE_DIR, "resume.html")
+
+
+@app.get("/lab-notes/<slug>")
+def lab_note_page(slug):
+    note = LAB_NOTES.get(slug)
+    if note is None:
+        abort(404)
+    return render_template("lab-note.html", note=note)
 
 
 @app.get("/projects/gnojo")

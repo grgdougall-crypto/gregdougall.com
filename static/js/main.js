@@ -103,17 +103,6 @@ document.querySelectorAll('.demo-status').forEach((demo) => {
   demo.closest('.project-card').addEventListener('pointerenter', runDemo, { once: true });
 });
 
-document.querySelectorAll('.note-toggle').forEach((toggle) => {
-  toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    const detail = document.getElementById(toggle.getAttribute('aria-controls'));
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    toggle.querySelector('.note-control span').textContent = expanded ? 'Read note' : 'Close note';
-    toggle.closest('.note-card').classList.toggle('is-expanded', !expanded);
-    detail.setAttribute('aria-hidden', String(expanded));
-  });
-});
-
 const revealTargets = document.querySelectorAll('.section-heading, .project-card, .now-grid, .note-card, .about-grid');
 revealTargets.forEach((target) => target.classList.add('reveal'));
 
