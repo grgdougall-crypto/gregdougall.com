@@ -50,6 +50,21 @@ PAGE_TITLES = {
     "/lab-notes/service-workflow-relationships": "Service Workflow Database Design | Greg Dougall Lab Notes",
 }
 
+PROJECT_SCHEMA_TYPES = {
+    "/projects/gnojo": "SoftwareApplication",
+    "/projects/ai-operations-assistant": "SoftwareApplication",
+    "/projects/irongate": "SoftwareApplication",
+    "/projects/smartfix": "SoftwareApplication",
+    "/projects/cyberslooth": "SoftwareApplication",
+    "/projects/ai-corral": "CreativeWork",
+}
+
+LAB_NOTE_ROUTES = (
+    "/lab-notes/bounded-autonomous-research",
+    "/lab-notes/governed-ai-repair",
+    "/lab-notes/service-workflow-relationships",
+)
+
 
 class HeadParser(HTMLParser):
     def __init__(self):
@@ -59,6 +74,7 @@ class HeadParser(HTMLParser):
         self.h1_count = 0
         self.title_parts = []
         self.json_ld = []
+        self.social_metadata = {}
         self._in_title = False
         self._in_json_ld = False
         self._script_parts = []
@@ -69,6 +85,10 @@ class HeadParser(HTMLParser):
             self.canonicals.append(attributes.get("href"))
         elif tag == "meta" and attributes.get("name") == "description":
             self.descriptions.append(attributes.get("content"))
+        elif tag == "meta" and attributes.get("property", "").startswith("og:"):
+            self.social_metadata[attributes["property"]] = attributes.get("content")
+        elif tag == "meta" and attributes.get("name", "").startswith("twitter:"):
+            self.social_metadata[attributes["name"]] = attributes.get("content")
         elif tag == "h1":
             self.h1_count += 1
         elif tag == "title":
@@ -163,6 +183,77 @@ class SeoTests(unittest.TestCase):
         self.assertEqual(website["name"], "Greg Dougall")
         self.assertEqual(website["url"], "https://gregdougall.com/")
         self.assertNotIn("potentialAction", website)
+
+    def test_social_metadata_is_page_specific_and_images_resolve(self):
+        og_titles = set()
+        og_descriptions = set()
+        og_urls = set()
+        for route, canonical in CANONICAL_ROUTES.items():
+            with self.subTest(route=route):
+                parser = self.parse_page(route)
+                metadata = parser.social_metadata
+                self.assertEqual(metadata["og:title"], PAGE_TITLES[route])
+                self.assertEqual(metadata["og:description"], parser.descriptions[0])
+                self.assertEqual(metadata["og:url"], canonical)
+                self.assertEqual(metadata["og:type"], "article" if route in LAB_NOTE_ROUTES else "website")
+                self.assertEqual(metadata["twitter:card"], "summary_large_image")
+                self.assertEqual(metadata["twitter:title"], metadata["og:title"])
+                self.assertEqual(metadata["twitter:description"], metadata["og:description"])
+                og_titles.add(metadata["og:title"])
+                og_descriptions.add(metadata["og:description"])
+                og_urls.add(metadata["og:url"])
+                if route == "/projects/ai-corral":
+                    self.assertNotIn("og:image", metadata)
+                    self.assertNotIn("twitter:image", metadata)
+                else:
+                    self.assertEqual(metadata["twitter:image"], metadata["og:image"])
+                    image_path = urlsplit(metadata["og:image"]).path
+                    image_response = self.client.get(image_path)
+                    self.assertEqual(image_response.status_code, 200, image_path)
+                    image_response.close()
+        self.assertEqual(len(og_titles), 12)
+        self.assertEqual(len(og_descriptions), 12)
+        self.assertEqual(len(og_urls), 12)
+
+    def test_lab_notes_have_factual_article_schema(self):
+        for route in LAB_NOTE_ROUTES:
+            with self.subTest(route=route):
+                parser = self.parse_page(route)
+                self.assertEqual(len(parser.json_ld), 1)
+                article = json.loads(parser.json_ld[0])
+                self.assertEqual(article["@type"], "Article")
+                self.assertEqual(article["url"], CANONICAL_ROUTES[route])
+                self.assertEqual(article["mainEntityOfPage"], CANONICAL_ROUTES[route])
+                self.assertEqual(article["author"]["name"], "Greg Dougall")
+                self.assertEqual(article["author"]["url"], "https://gregdougall.com/")
+                self.assertNotIn("dateModified", article)
+
+    def test_projects_have_conservative_project_schema(self):
+        unsupported_fields = {"aggregateRating", "offers", "operatingSystem", "softwareVersion"}
+        for route, schema_type in PROJECT_SCHEMA_TYPES.items():
+            with self.subTest(route=route):
+                parser = self.parse_page(route)
+                self.assertEqual(len(parser.json_ld), 1)
+                schema = json.loads(parser.json_ld[0])
+                self.assertEqual(schema["@type"], schema_type)
+                self.assertEqual(schema["url"], CANONICAL_ROUTES[route])
+                self.assertEqual(schema["creator"]["name"], "Greg Dougall")
+                self.assertTrue(unsupported_fields.isdisjoint(schema))
+
+    def test_related_lab_note_links_are_reciprocal(self):
+        related_links = {
+            "/projects/cyberslooth": "/lab-notes/bounded-autonomous-research",
+            "/projects/gnojo": "/lab-notes/governed-ai-repair",
+            "/projects/smartfix": "/lab-notes/service-workflow-relationships",
+        }
+        for project_route, note_route in related_links.items():
+            with self.subTest(project=project_route):
+                project_response = self.client.get(project_route)
+                self.assertIn(f'href="{note_route}"', project_response.get_data(as_text=True))
+                project_response.close()
+                note_response = self.client.get(note_route)
+                self.assertIn(f'href="{project_route}"', note_response.get_data(as_text=True))
+                note_response.close()
 
 
 if __name__ == "__main__":

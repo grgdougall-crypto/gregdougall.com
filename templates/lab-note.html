@@ -6,6 +6,32 @@
   <meta name="description" content="{{ note.subtitle }}">
   <title>{{ note.seo_title }}</title>
   <link rel="canonical" href="https://gregdougall.com/lab-notes/{{ slug }}">
+  <meta property="og:title" content="{{ note.seo_title }}">
+  <meta property="og:description" content="{{ note.subtitle }}">
+  <meta property="og:url" content="https://gregdougall.com/lab-notes/{{ slug }}">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="{{ note.social_image }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ note.seo_title }}">
+  <meta name="twitter:description" content="{{ note.subtitle }}">
+  <meta name="twitter:image" content="{{ note.social_image }}">
+  <script type="application/ld+json">
+  {{ {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": note.title,
+    "description": note.subtitle,
+    "datePublished": note.date_iso,
+    "author": {
+      "@type": "Person",
+      "name": "Greg Dougall",
+      "url": "https://gregdougall.com/"
+    },
+    "mainEntityOfPage": "https://gregdougall.com/lab-notes/" ~ slug,
+    "url": "https://gregdougall.com/lab-notes/" ~ slug,
+    "image": note.social_image
+  } | tojson }}
+  </script>
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body class="lab-note-page">
