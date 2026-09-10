@@ -10,12 +10,27 @@ from urllib import error as url_error
 from urllib import request as url_request
 
 import openai
-from flask import Flask, abort, jsonify, render_template, request, send_from_directory
+from flask import Flask, Response, abort, jsonify, redirect, render_template, request, send_from_directory
 from openai import OpenAI
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 BASE_DIR = Path(__file__).resolve().parent
+SITE_URL = "https://gregdougall.com"
+CANONICAL_PATHS = (
+    "/",
+    "/contact",
+    "/resume",
+    "/projects/gnojo",
+    "/projects/ai-operations-assistant",
+    "/projects/irongate",
+    "/projects/smartfix",
+    "/projects/cyberslooth",
+    "/projects/ai-corral",
+    "/lab-notes/bounded-autonomous-research",
+    "/lab-notes/governed-ai-repair",
+    "/lab-notes/service-workflow-relationships",
+)
 RESEND_ENDPOINT = "https://api.resend.com/emails"
 MAX_REQUEST_BYTES = 16 * 1024
 RATE_LIMIT_ATTEMPTS = 5
@@ -57,6 +72,7 @@ EMAIL_PATTERN = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 LAB_NOTES = {
     "bounded-autonomous-research": {
         "title": "Running My First Bounded Autonomous Research Job",
+        "seo_title": "Bounded Autonomous Research | Greg Dougall Lab Notes",
         "subtitle": "Validating a scheduled research run that could explore, publish, and stop on its own.",
         "date": "September 5, 2026",
         "date_iso": "2026-09-05",
@@ -110,6 +126,7 @@ LAB_NOTES = {
     },
     "governed-ai-repair": {
         "title": "Governed AI Repair",
+        "seo_title": "Governed AI Repair | Greg Dougall Lab Notes",
         "subtitle": "Designing useful AI-assisted repair without silent changes to operational knowledge.",
         "date": "February 6, 2025",
         "date_iso": "2025-02-06",
@@ -160,6 +177,7 @@ LAB_NOTES = {
     },
     "service-workflow-relationships": {
         "title": "Designing Relationships Around a Service Workflow",
+        "seo_title": "Service Workflow Database Design | Greg Dougall Lab Notes",
         "subtitle": "Using relational thinking to keep a service job connected from intake through follow-up.",
         "date": "January 24, 2025",
         "date_iso": "2025-01-24",
@@ -416,21 +434,33 @@ def send_contact_email(config, contact):
 
 
 @app.get("/")
-@app.get("/index.html")
 def home():
     return send_from_directory(BASE_DIR, "index.html")
 
 
+@app.get("/index.html")
+def home_alias():
+    return redirect("/", code=308)
+
+
 @app.get("/contact")
-@app.get("/contact.html")
 def contact_page():
     return send_from_directory(BASE_DIR, "contact.html")
 
 
+@app.get("/contact.html")
+def contact_alias():
+    return redirect("/contact", code=308)
+
+
 @app.get("/resume")
-@app.get("/resume.html")
 def resume_page():
     return send_from_directory(BASE_DIR, "resume.html")
+
+
+@app.get("/resume.html")
+def resume_alias():
+    return redirect("/resume", code=308)
 
 
 @app.get("/lab-notes/<slug>")
@@ -438,44 +468,91 @@ def lab_note_page(slug):
     note = LAB_NOTES.get(slug)
     if note is None:
         abort(404)
-    return render_template("lab-note.html", note=note)
+    return render_template("lab-note.html", note=note, slug=slug)
 
 
 @app.get("/projects/gnojo")
-@app.get("/projects/gnojo.html")
 def gnojo_page():
     return send_from_directory(BASE_DIR / "projects", "gnojo.html")
 
 
+@app.get("/projects/gnojo.html")
+def gnojo_alias():
+    return redirect("/projects/gnojo", code=308)
+
+
 @app.get("/projects/ai-operations-assistant")
-@app.get("/projects/ai-operations-assistant.html")
 def ai_operations_assistant_page():
     return send_from_directory(BASE_DIR / "projects", "ai-operations-assistant.html")
 
 
+@app.get("/projects/ai-operations-assistant.html")
+def ai_operations_assistant_alias():
+    return redirect("/projects/ai-operations-assistant", code=308)
+
+
 @app.get("/projects/irongate")
-@app.get("/projects/irongate.html")
 def irongate_page():
     return send_from_directory(BASE_DIR / "projects", "irongate.html")
 
 
+@app.get("/projects/irongate.html")
+def irongate_alias():
+    return redirect("/projects/irongate", code=308)
+
+
 @app.get("/projects/smartfix")
-@app.get("/projects/smartfix.html")
-@app.get("/projects/nw-home-fix")
 def smartfix_page():
     return send_from_directory(BASE_DIR / "projects", "smartfix.html")
 
 
+@app.get("/projects/smartfix.html")
+def smartfix_html_alias():
+    return redirect("/projects/smartfix", code=308)
+
+
+@app.get("/projects/nw-home-fix")
+def smartfix_legacy_alias():
+    return redirect("/projects/smartfix", code=308)
+
+
 @app.get("/projects/cyberslooth")
-@app.get("/projects/cyberslooth.html")
 def cyberslooth_page():
     return send_from_directory(BASE_DIR / "projects", "cyberslooth.html")
 
 
+@app.get("/projects/cyberslooth.html")
+def cyberslooth_alias():
+    return redirect("/projects/cyberslooth", code=308)
+
+
 @app.get("/projects/ai-corral")
-@app.get("/projects/ai-corral.html")
 def ai_corral_page():
     return send_from_directory(BASE_DIR / "projects", "ai-corral.html")
+
+
+@app.get("/projects/ai-corral.html")
+def ai_corral_alias():
+    return redirect("/projects/ai-corral", code=308)
+
+
+@app.get("/robots.txt")
+def robots_txt():
+    body = "User-agent: *\nAllow: /\n\nSitemap: https://gregdougall.com/sitemap.xml\n"
+    return Response(body, content_type="text/plain; charset=utf-8")
+
+
+@app.get("/sitemap.xml")
+def sitemap_xml():
+    urls = "".join(
+        f"  <url><loc>{SITE_URL}{path}</loc></url>\n" for path in CANONICAL_PATHS
+    )
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}</urlset>\n"
+    )
+    return Response(body, content_type="application/xml; charset=utf-8")
 
 
 @app.get("/static/<path:filename>")
