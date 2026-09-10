@@ -111,6 +111,7 @@ class HeadParser(HTMLParser):
         self.social_metadata = {}
         self.images = []
         self.sources = []
+        self.icons = []
         self._in_title = False
         self._in_json_ld = False
         self._script_parts = []
@@ -119,6 +120,8 @@ class HeadParser(HTMLParser):
         attributes = dict(attrs)
         if tag == "link" and attributes.get("rel") == "canonical":
             self.canonicals.append(attributes.get("href"))
+        elif tag == "link" and attributes.get("rel") in {"icon", "apple-touch-icon"}:
+            self.icons.append(attributes)
         elif tag == "meta" and attributes.get("name") == "description":
             self.descriptions.append(attributes.get("content"))
         elif tag == "meta" and attributes.get("property", "").startswith("og:"):
@@ -329,6 +332,30 @@ class SeoTests(unittest.TestCase):
         self.assertEqual(profile.get("width"), "1254")
         self.assertEqual(profile.get("height"), "1254")
         self.assertEqual(profile.get("loading"), "lazy")
+
+    def test_all_public_pages_include_favicon_links_and_assets_resolve(self):
+        expected_icons = [
+            {"rel": "icon", "href": "/static/icons/favicon.ico", "sizes": "any"},
+            {
+                "rel": "icon",
+                "type": "image/png",
+                "sizes": "32x32",
+                "href": "/static/icons/favicon-32x32.png",
+            },
+            {"rel": "apple-touch-icon", "href": "/static/icons/apple-touch-icon.png"},
+        ]
+        for route in CANONICAL_ROUTES:
+            with self.subTest(route=route):
+                parser = self.parse_page(route)
+                self.assertEqual(parser.icons, expected_icons)
+
+        for icon in expected_icons:
+            path = icon["href"]
+            with self.subTest(asset=path):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response.content_type.startswith("image/"))
+                response.close()
 
     def test_targeted_screenshots_use_webp_previews_and_original_fallbacks(self):
         routes = (
