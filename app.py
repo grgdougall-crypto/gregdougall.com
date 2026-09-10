@@ -235,8 +235,42 @@ app = Flask(__name__, static_folder=None)
 app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BYTES
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 
+STATIC_CACHE_CONTROL = {
+    ".css": "public, max-age=3600",
+    ".js": "public, max-age=3600",
+    ".webp": "public, max-age=86400",
+    ".png": "public, max-age=86400",
+    ".jpg": "public, max-age=86400",
+    ".jpeg": "public, max-age=86400",
+    ".pdf": "public, max-age=3600",
+}
+CACHEABLE_RESPONSE_STATUSES = {200, 206, 304}
+
 _rate_buckets = {}
 _rate_lock = threading.Lock()
+
+
+@app.after_request
+def apply_cache_policy(response):
+    if (
+        request.method not in {"GET", "HEAD"}
+        or response.status_code not in CACHEABLE_RESPONSE_STATUSES
+        or request.path.startswith("/api/")
+    ):
+        return response
+
+    if request.path in {"/robots.txt", "/sitemap.xml"}:
+        cache_control = "no-cache"
+    elif request.path.startswith("/static/"):
+        cache_control = STATIC_CACHE_CONTROL.get(Path(request.path).suffix.lower())
+    elif response.mimetype == "text/html":
+        cache_control = "no-cache"
+    else:
+        cache_control = None
+
+    if cache_control is not None:
+        response.headers["Cache-Control"] = cache_control
+    return response
 
 
 def _json_error(message, status):
