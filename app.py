@@ -171,6 +171,8 @@ LAB_NOTES = {
         "evidence": {
             "type": "image",
             "src": "/static/Images/gnojo/gnojo-governed-review.jpeg",
+            "width": 1731,
+            "height": 3564,
             "alt": "Gnojo governed review screen holding a repair for a human decision",
             "label": "Governed review state",
             "caption": "The repair remains a proposal: the screen exposes evidence and a recommended next step while requiring a reviewer to decide what happens next.",
@@ -217,6 +219,8 @@ LAB_NOTES = {
         "evidence": {
             "type": "image",
             "src": "/static/Images/smartfix/09-estimate-to-invoice.jpeg",
+            "width": 1763,
+            "height": 1500,
             "alt": "SmartFix finalized invoice linked to request 21 and estimate EST-2026-0008",
             "label": "Estimate-to-invoice continuity",
             "caption": "The finalized invoice identifies both its originating request and accepted estimate, making the relationship between workflow stages visible in the interface.",

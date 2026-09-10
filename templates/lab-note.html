@@ -77,7 +77,7 @@
           <figure class="lab-note-evidence{% if note.evidence.type == 'summary' %} lab-note-evidence-summary{% endif %}">
             <div class="lab-note-evidence-header"><span>Evidence</span><strong>{{ note.evidence.label }}</strong></div>
             {% if note.evidence.type == "image" %}
-            <img src="{{ note.evidence.src }}" alt="{{ note.evidence.alt }}" loading="lazy">
+            <img src="{{ note.evidence.src }}" alt="{{ note.evidence.alt }}" width="{{ note.evidence.width }}" height="{{ note.evidence.height }}" loading="lazy">
             {% else %}
             <dl class="run-summary">
               {% for label, value in note.evidence["items"] %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}

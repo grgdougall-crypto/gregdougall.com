@@ -65,6 +65,26 @@ LAB_NOTE_ROUTES = (
     "/lab-notes/service-workflow-relationships",
 )
 
+SCREENSHOT_DIMENSIONS = {
+    "/static/Images/gnojo/gnojo-curator-dashboard.jpeg": (2115, 7649),
+    "/static/Images/gnojo/gnojo-fix-wizard.jpeg": (1731, 3673),
+    "/static/Images/gnojo/gnojo-governed-review.jpeg": (1731, 3564),
+    "/static/Images/ai-operations-assistant/dashboard-overview.png": (1888, 922),
+    "/static/Images/ai-operations-assistant/risk-detail-analysis.png": (1281, 752),
+    "/static/Images/ai-operations-assistant/executive-reporting.png": (948, 898),
+    "/static/Images/irongate/project-irongate-dashboard.jpeg": (1763, 1648),
+    "/static/Images/irongate/phishing-investigation.png": (1440, 900),
+    "/static/Images/irongate/knowledge-check.png": (1440, 900),
+    "/static/Images/smartfix/04-owner-dashboard.jpeg": (1763, 1874),
+    "/static/Images/smartfix/05-request-detail.jpeg": (1763, 4432),
+    "/static/Images/smartfix/09-estimate-to-invoice.jpeg": (1763, 1500),
+    "/static/Images/smartfix/11-planning-today.jpeg": (1763, 1063),
+    "/static/Images/cyberslooth/homepage-research-interface.png": (1440, 1000),
+    "/static/Images/cyberslooth/research-archive.png": (1440, 1000),
+    "/static/Images/cyberslooth/todays-discovery.png": (1440, 1000),
+    "/static/Images/cyberslooth/autonomous-run-status.png": (1440, 1000),
+}
+
 
 class HeadParser(HTMLParser):
     def __init__(self):
@@ -75,6 +95,7 @@ class HeadParser(HTMLParser):
         self.title_parts = []
         self.json_ld = []
         self.social_metadata = {}
+        self.images = []
         self._in_title = False
         self._in_json_ld = False
         self._script_parts = []
@@ -91,6 +112,8 @@ class HeadParser(HTMLParser):
             self.social_metadata[attributes["name"]] = attributes.get("content")
         elif tag == "h1":
             self.h1_count += 1
+        elif tag == "img" and attributes.get("src"):
+            self.images.append(attributes)
         elif tag == "title":
             self._in_title = True
         elif tag == "script" and attributes.get("type") == "application/ld+json":
@@ -254,6 +277,41 @@ class SeoTests(unittest.TestCase):
                 note_response = self.client.get(note_route)
                 self.assertIn(f'href="{project_route}"', note_response.get_data(as_text=True))
                 note_response.close()
+
+    def test_screenshots_have_accurate_intrinsic_dimensions(self):
+        screenshot_routes = (
+            "/projects/gnojo",
+            "/projects/ai-operations-assistant",
+            "/projects/irongate",
+            "/projects/smartfix",
+            "/projects/cyberslooth",
+            "/lab-notes/governed-ai-repair",
+            "/lab-notes/service-workflow-relationships",
+        )
+        found = set()
+        for route in screenshot_routes:
+            parser = self.parse_page(route)
+            for image in parser.images:
+                source = image["src"]
+                if source not in SCREENSHOT_DIMENSIONS:
+                    continue
+                expected_width, expected_height = SCREENSHOT_DIMENSIONS[source]
+                self.assertEqual(int(image["width"]), expected_width, source)
+                self.assertEqual(int(image["height"]), expected_height, source)
+                self.assertEqual(image.get("loading"), "lazy", source)
+                found.add(source)
+        self.assertEqual(found, set(SCREENSHOT_DIMENSIONS))
+
+    def test_homepage_profile_image_is_lazy_loaded(self):
+        parser = self.parse_page("/")
+        profile = next(
+            image
+            for image in parser.images
+            if image["src"] == "/static/Images/profile/headshot-github.jpg"
+        )
+        self.assertEqual(profile.get("width"), "1254")
+        self.assertEqual(profile.get("height"), "1254")
+        self.assertEqual(profile.get("loading"), "lazy")
 
 
 if __name__ == "__main__":
