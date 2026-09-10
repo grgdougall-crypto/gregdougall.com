@@ -85,6 +85,20 @@ SCREENSHOT_DIMENSIONS = {
     "/static/Images/cyberslooth/autonomous-run-status.png": (1440, 1000),
 }
 
+PREVIEW_VARIANTS = {
+    "/static/Images/gnojo/gnojo-curator-dashboard.jpeg": "/static/Images/gnojo/gnojo-curator-dashboard",
+    "/static/Images/gnojo/gnojo-fix-wizard.jpeg": "/static/Images/gnojo/gnojo-fix-wizard",
+    "/static/Images/gnojo/gnojo-governed-review.jpeg": "/static/Images/gnojo/gnojo-governed-review",
+    "/static/Images/ai-operations-assistant/dashboard-overview.png": "/static/Images/ai-operations-assistant/dashboard-overview",
+    "/static/Images/irongate/phishing-investigation.png": "/static/Images/irongate/phishing-investigation",
+    "/static/Images/irongate/knowledge-check.png": "/static/Images/irongate/knowledge-check",
+    "/static/Images/smartfix/05-request-detail.jpeg": "/static/Images/smartfix/05-request-detail",
+    "/static/Images/cyberslooth/homepage-research-interface.png": "/static/Images/cyberslooth/homepage-research-interface",
+    "/static/Images/cyberslooth/research-archive.png": "/static/Images/cyberslooth/research-archive",
+    "/static/Images/cyberslooth/todays-discovery.png": "/static/Images/cyberslooth/todays-discovery",
+    "/static/Images/cyberslooth/autonomous-run-status.png": "/static/Images/cyberslooth/autonomous-run-status",
+}
+
 
 class HeadParser(HTMLParser):
     def __init__(self):
@@ -96,6 +110,7 @@ class HeadParser(HTMLParser):
         self.json_ld = []
         self.social_metadata = {}
         self.images = []
+        self.sources = []
         self._in_title = False
         self._in_json_ld = False
         self._script_parts = []
@@ -114,6 +129,8 @@ class HeadParser(HTMLParser):
             self.h1_count += 1
         elif tag == "img" and attributes.get("src"):
             self.images.append(attributes)
+        elif tag == "source" and attributes.get("srcset"):
+            self.sources.append(attributes)
         elif tag == "title":
             self._in_title = True
         elif tag == "script" and attributes.get("type") == "application/ld+json":
@@ -312,6 +329,48 @@ class SeoTests(unittest.TestCase):
         self.assertEqual(profile.get("width"), "1254")
         self.assertEqual(profile.get("height"), "1254")
         self.assertEqual(profile.get("loading"), "lazy")
+
+    def test_targeted_screenshots_use_webp_previews_and_original_fallbacks(self):
+        routes = (
+            "/projects/gnojo",
+            "/projects/ai-operations-assistant",
+            "/projects/irongate",
+            "/projects/smartfix",
+            "/projects/cyberslooth",
+            "/lab-notes/governed-ai-repair",
+        )
+        found_originals = set()
+        found_variants = set()
+        for route in routes:
+            parser = self.parse_page(route)
+            page_originals = {image["src"] for image in parser.images}
+            for source in parser.sources:
+                self.assertEqual(source.get("type"), "image/webp")
+                self.assertTrue(source.get("sizes"))
+                for candidate in source["srcset"].split(","):
+                    path, descriptor = candidate.strip().split()
+                    self.assertIn(descriptor, {"400w", "800w"})
+                    response = self.client.get(path)
+                    self.assertEqual(response.status_code, 200, path)
+                    response.close()
+                    found_variants.add(path)
+                matching_originals = [
+                    original
+                    for original, stem in PREVIEW_VARIANTS.items()
+                    if source["srcset"].startswith(stem)
+                ]
+                self.assertEqual(len(matching_originals), 1)
+                self.assertIn(matching_originals[0], page_originals)
+                found_originals.add(matching_originals[0])
+        self.assertEqual(found_originals, set(PREVIEW_VARIANTS))
+        self.assertEqual(
+            found_variants,
+            {
+                f"{stem}-{width}.webp"
+                for stem in PREVIEW_VARIANTS.values()
+                for width in (400, 800)
+            },
+        )
 
 
 if __name__ == "__main__":

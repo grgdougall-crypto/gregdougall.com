@@ -454,6 +454,7 @@ button.finding-card { font: inherit; cursor: pointer; transition: border-color .
 .screenshot-card:hover, .screenshot-card:focus-within { transform: translateY(-4px); border-color: #adc7be; box-shadow: 0 22px 44px rgba(31,49,44,.12); }
 .screenshot-trigger { width: 100%; height: 100%; display: flex; flex-direction: column; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; cursor: zoom-in; }
 .screenshot-frame { position: relative; aspect-ratio: 16 / 10; display: block; overflow: hidden; background: #dfe8e4; border-bottom: 1px solid #d6dfdb; }
+.screenshot-frame picture { display: contents; }
 .screenshot-frame::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.34); pointer-events: none; }
 .screenshot-frame img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: top center; transition: transform .35s ease; }
 .screenshot-trigger:hover .screenshot-frame img, .screenshot-trigger:focus-visible .screenshot-frame img { transform: scale(1.018); }

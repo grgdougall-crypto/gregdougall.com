@@ -171,6 +171,7 @@ LAB_NOTES = {
         "evidence": {
             "type": "image",
             "src": "/static/Images/gnojo/gnojo-governed-review.jpeg",
+            "preview_srcset": "/static/Images/gnojo/gnojo-governed-review-400.webp 400w, /static/Images/gnojo/gnojo-governed-review-800.webp 800w",
             "width": 1731,
             "height": 3564,
             "alt": "Gnojo governed review screen holding a repair for a human decision",
@@ -219,6 +220,7 @@ LAB_NOTES = {
         "evidence": {
             "type": "image",
             "src": "/static/Images/smartfix/09-estimate-to-invoice.jpeg",
+            "preview_srcset": None,
             "width": 1763,
             "height": 1500,
             "alt": "SmartFix finalized invoice linked to request 21 and estimate EST-2026-0008",
